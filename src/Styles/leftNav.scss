@@ -1,0 +1,13 @@
+.LeftNav_totalContainer{
+    flex: 0.15 1;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.LeftNav_subTotalContainer{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
