@@ -11,3 +11,29 @@
     flex-direction: column;
     justify-content: space-evenly;
 }
+.LeftNav_names{
+    margin-left: 1rem ;
+    height: 40px;
+    width: 214px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    cursor: pointer;
+//     background: linear-gradient(
+// 350deg, #f0f0f0, #f5f1f1);
+//     box-shadow: 20px 20px 76px #b8b8b8, -20px -20px 76px #ffffff;
+
+}
+.LeftNav_names.selected{
+    height: 40px;
+    width: 214px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    background: linear-gradient(
+350deg, #f0f0f0, #f5f1f1);
+    box-shadow: 20px 20px 76px #b8b8b8, -20px -20px 76px #ffffff;
+
+}
