@@ -2,7 +2,7 @@ import React from "react";
 import "../Styles/leftNav.scss";
 import { useState, useEffect } from "react";
 import navData from "./Data/LeftSideNavData";
-import { AiOutlineAreaChart } from "react-icons/ai";
+import { AiOutlineAreaChart, AiFillBulb,AiFillCalendar,AiFillFlag,AiFillFolderOpen,AiFillHome } from "react-icons/ai";
 
 function LeftNav(props) {
   const [SideNavNames, setSideNavNames] = useState(navData);
@@ -35,7 +35,10 @@ function LeftNav(props) {
               }`}
             >
               <span className='LeftNav_spanImg'>
-                <AiOutlineAreaChart />
+                  <div className="leftNav_image_blurContainer">
+                  <AiOutlineAreaChart />
+                  </div>
+               
               </span>
               <p className='LeftNav_pImg'>{e.name}</p>
             </div>

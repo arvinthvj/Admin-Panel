@@ -34,6 +34,7 @@
     background: linear-gradient(
 350deg, #f0f0f0, #f5f1f1);
     box-shadow: 20px 20px 76px #b8b8b8, -20px -20px 76px #ffffff;
+   
 
 }
 .LeftNav_spanImg{
@@ -41,4 +42,23 @@
 }
 .LeftNav_pImg{
     flex: 1;
+    margin: 0;
+}
+.selected .leftNav_image_blurContainer{
+    height: 20px;
+    width: 40px;
+    background-color: aquamarine;
+    margin-left: 14px;
+    height: 20px;
+    width: 40px;
+    background-color: #74c9fb;
+    margin-left: 14px;
+    border-radius: 9px;
+    // -webkit-filter: invert(1);
+    // filter: invert(1);
+}
+.selected .leftNav_image_blurContainer >svg{
+   
+    -webkit-filter: invert(1);
+    filter: invert(1);
 }

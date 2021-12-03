@@ -1,4 +1,14 @@
 .Home_totalContainer{
     display: flex;
     height: 100vh;
+    justify-content: space-around;
+}
+.Home_Right_body_container{
+   flex: .8;
+    display: flex;
+    justify-content: center;
+}
+.Home_Right_Subbody_container{
+    flex: 1;
+    // justify-content: center;
 }
