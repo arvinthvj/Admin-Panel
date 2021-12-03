@@ -1,51 +1,66 @@
 const navData=[
         {
             "name": "Dashboard",
-            "selected": true
+            "selected": true,
+            "icons": "./Images/briefcase.svg"
         },
         {
             "name": "Login",
-            "selected": false
+            "selected": false,
+            "icons": "./Images/log-in.svg"
         },
         {
             "name": "Tables",
-            "selected": false
+            "selected": false,
+            "icons": "./Images/tablet.svg"
         },
         {
             "name": "Pensing Payments",
-            "selected": false
+            "selected": false,
+            "icons": "./Images/credit-card.svg"
         },
         {
             "name": "Sign In",
-            "selected": false
+            "selected": false,
+            "icons": "./Images/at-sign.svg"
         },
         {
             "name": "Sign up",
-            "selected": false
+            "selected": false, 
+            "icons": "./Images/tablet.svg"
         },
         {
             "name": "Portals",
-            "selected": false
+            "selected": false,
+            "icons": "./Images/at-sign.svg"
         },
         {
             "name": "Cluster",
-            "selected": false
+            "selected": false,
+            "icons": "./Images/credit-card.svg"
         },
         {
             "name": "Time Taken",
-            "selected": false
+            "selected": false,
+            "icons": "./Images/at-sign.svg"
         },
         {
             "name": "Pensing Payments -Admin view",
-            "selected": false
+            "selected": false,
+            "icons": "./Images/at-sign.svg"
+
         },
         {
             "name": "Admin - View",
-            "selected": false
+            "selected": false,
+            "icons": "./Images/at-sign.svg"
+
         },
         {
             "name": "Corporate",
-            "selected": false
+            "selected": false,
+            "icons": "./Images/at-sign.svg"
+
         }
     ]
 
