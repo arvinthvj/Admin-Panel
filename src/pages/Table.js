@@ -98,7 +98,14 @@ const EditableCell = ({
 };
 
 const EditableTable =()=>{
-  const tableData = useSelector((state) => state.tableDataFromRedux);
+    const tableData = useSelector((state) => state.tableDataFromRedux);
+
+  const [dataSource, setDataSource] = useState(tableData);
+    const [count, setCount] = useState(0);
+    useEffect(() => {
+      setDataSource(tableData)
+    }, [tableData])
+  
 
   // constructor(props) {
   //   super(props);
@@ -135,8 +142,7 @@ const EditableTable =()=>{
           ) : null,
       },
     ];
-    const [dataSource, setDataSource] = useState(tableData);
-    const [count, setCount] = useState(0);
+    
     
  
 

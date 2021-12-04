@@ -18,3 +18,13 @@ export const tableDataForPageAction = (tableData) => {
         });
     }
 }
+
+export const tableDataSource = (tableData) => {
+    debugger
+    return (dispatch) => {
+        dispatch({
+            type: "source",
+            payload: tableData
+        });
+    }
+}

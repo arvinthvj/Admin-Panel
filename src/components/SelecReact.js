@@ -5,23 +5,37 @@ import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from 'redux'
 import { actionCreators } from "../state/index";
+import {excelExport, data as dataFromExcel, SETTINGS_FOR_EXPORT} from '../Export/ExportData';
 
 const options = [
-  { value: 'Batch 4', label: 'Batch 4' },
-  { value: 'Batch 5', label: 'Batch 5' },
-  { value: 'Batch 6', label: 'Batch 6' },
-  { value: 'Batch 7', label: 'Batch 7' },
+  { value: '4', label: 'Batch 4' },
+  { value: '5', label: 'Batch 5' },
+  { value: '6', label: 'Batch 6' },
+  { value: '7', label: 'Batch 7' },
 ];
 
 function SelectComponent(){
   const tableTotalDataFromRedux = useSelector((state) => state.tableDataFromRedux);
+  const tableSourceData = useSelector((state) => state.tableDataSource);
+
   const dispatch = useDispatch();
   const {tableDataForPageAction} = bindActionCreators(actionCreators, dispatch);
   const [selectedOption, setSelectedOption] = useState(null)
   const handleChange = (selectedOption) => {
     // this.setState({ selectedOption });
-    debugger
-    tableDataForPageAction({name:"jn"});
+    // let realFiltered = [];
+    let realFiltered = [];
+    excelExport.downloadExcel(SETTINGS_FOR_EXPORT, dataFromExcel);
+    let sourceReduxTabeData = tableSourceData.map(e=>{return e});
+    selectedOption.map(o=>{
+      sourceReduxTabeData.map(e=>{
+           if(o.value == e.batch){
+             realFiltered.push(e)
+           }
+         })
+    });
+    
+    tableDataForPageAction(realFiltered);
     setSelectedOption(selectedOption);
     console.log(`Option selected:`, selectedOption);
   };
