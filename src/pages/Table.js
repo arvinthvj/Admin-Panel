@@ -6,6 +6,7 @@ import { Table, Input, Button, Popconfirm, Form } from 'antd';
 import { Menu, Dropdown } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import '../Styles/table.scss'
+import tableData from './Data/TableData';
 
 const EditableContext = React.createContext(null);
 
@@ -128,29 +129,7 @@ class EditableTable extends React.Component {
       },
     ];
     this.state = {
-      dataSource: [
-        {
-          key: '0',
-          name: 'Murali',
-          age: '32',
-          batch : "Batch 4",
-          address: 'Chennai',
-        },
-        {
-          key: '1',
-          name: 'Gopi',
-          age: '32',
-          batch : "Batch 4",
-          address: 'Tiruppur',
-        },
-        {
-          key: '2',
-          name: 'Muthu',
-          age: '32',
-          batch : "Batch 4",
-          address: 'Thirupathur',
-        },
-      ],
+      dataSource: tableData,
       count: 2,
     };
   }
