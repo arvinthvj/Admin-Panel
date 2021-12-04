@@ -107,6 +107,11 @@ class EditableTable extends React.Component {
         editable: true,
       },
       {
+        title: 'Batch No.',
+        dataIndex: 'batch',
+        editable: true,
+      },
+      {
         title: 'address',
         dataIndex: 'address',
         editable: true,
@@ -126,15 +131,24 @@ class EditableTable extends React.Component {
       dataSource: [
         {
           key: '0',
-          name: 'Edward King 0',
+          name: 'Murali',
           age: '32',
-          address: 'London, Park Lane no. 0',
+          batch : "Batch 4",
+          address: 'Chennai',
         },
         {
           key: '1',
-          name: 'Edward King 1',
+          name: 'Gopi',
           age: '32',
-          address: 'London, Park Lane no. 1',
+          batch : "Batch 4",
+          address: 'Tiruppur',
+        },
+        {
+          key: '2',
+          name: 'Muthu',
+          age: '32',
+          batch : "Batch 4",
+          address: 'Thirupathur',
         },
       ],
       count: 2,
@@ -153,9 +167,7 @@ class EditableTable extends React.Component {
       <Menu.Item key="3">3rd menu item</Menu.Item> */}
     </Menu>
   );
-  handlePromptDropdown=(e)=>{
-    debugger
-}
+ 
 
   handleDelete = (key) => {
     const dataSource = [...this.state.dataSource];
@@ -229,14 +241,7 @@ class EditableTable extends React.Component {
     return (
       <div>
           <div className="Table_upperButons">
-          <Dropdown overlay={this.menu} trigger={["click"]}>
-          <a className='ant-dropdown-link' onClick={(e) => {
-              e.preventDefault()
-              this.handlePromptDropdown(e)
-              }}>
-            Click me <DownOutlined />
-          </a>
-        </Dropdown>
+          <div></div>
         <Button
           onClick={this.handleAdd}
           type='primary'

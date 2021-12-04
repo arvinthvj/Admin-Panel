@@ -15,7 +15,7 @@ const navData=[
             "icons": "./Images/tablet.svg"
         },
         {
-            "name": "Pensing Payments",
+            "name": "Pending Payments",
             "selected": false,
             "icons": "./Images/credit-card.svg"
         },
@@ -45,7 +45,7 @@ const navData=[
             "icons": "./Images/at-sign.svg"
         },
         {
-            "name": "Pensing Payments -Admin view",
+            "name": "Pending Payments -Admin view",
             "selected": false,
             "icons": "./Images/at-sign.svg"
 
