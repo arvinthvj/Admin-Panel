@@ -5,7 +5,6 @@ import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from 'redux'
 import { actionCreators } from "../state/index";
-import {excelExport, data as dataFromExcel, SETTINGS_FOR_EXPORT} from '../Export/ExportData';
 
 const options = [
   { value: '4', label: 'Batch 4' },
@@ -25,7 +24,6 @@ function SelectComponent(){
     // this.setState({ selectedOption });
     // let realFiltered = [];
     let realFiltered = [];
-    excelExport.downloadExcel(SETTINGS_FOR_EXPORT, dataFromExcel);
     let sourceReduxTabeData = tableSourceData.map(e=>{return e});
     selectedOption.map(o=>{
       sourceReduxTabeData.map(e=>{
