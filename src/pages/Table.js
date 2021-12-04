@@ -5,14 +5,19 @@ import 'antd/dist/antd.css';
 import { Table, Input, Button, Popconfirm, Form } from 'antd';
 import { Menu, Dropdown } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+
 import '../Styles/table.scss'
-import tableData from './Data/TableData';
+import { useSelector } from "react-redux"
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from 'redux'
+import { actionCreators } from "../state/index";
+// import tableData from './Data/TableReduxData';
+
 
 const EditableContext = React.createContext(null);
 
-
-
 const EditableRow = ({ index, ...props }) => {
+
   const [form] = Form.useForm();
   return (
     <Form form={form} component={false}>
@@ -92,10 +97,12 @@ const EditableCell = ({
   return <td {...restProps}>{childNode}</td>;
 };
 
-class EditableTable extends React.Component {
-  constructor(props) {
-    super(props);
-    this.columns = [
+const EditableTable =()=>{
+  const tableData = useSelector((state) => state.tableDataFromRedux);
+
+  // constructor(props) {
+  //   super(props);
+    var columns = [
       {
         title: 'name',
         dataIndex: 'name',
@@ -121,23 +128,23 @@ class EditableTable extends React.Component {
         title: 'operation',
         dataIndex: 'operation',
         render: (_, record) =>
-          this.state.dataSource.length >= 1 ? (
-            <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
+          dataSource.length >= 1 ? (
+            <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
               <a>Delete</a>
             </Popconfirm>
           ) : null,
       },
     ];
-    this.state = {
-      dataSource: tableData,
-      count: 2,
-    };
-  }
-   menu = (
+    const [dataSource, setDataSource] = useState(tableData);
+    const [count, setCount] = useState(0);
+    
+ 
+
+   const menu = (
     <Menu>
       <Menu.Item key="0">
         <a onClick={(e)=>{ debugger 
-            this.handlePromptDropdown(e)}}>hi</a>
+            handlePromptDropdown(e)}}>hi</a>
       </Menu.Item>
       {/* <Menu.Item key="1">
         <a href="https://www.aliyun.com">2nd menu item</a>
@@ -147,29 +154,26 @@ class EditableTable extends React.Component {
     </Menu>
   );
  
-
-  handleDelete = (key) => {
-    const dataSource = [...this.state.dataSource];
-    this.setState({
-      dataSource: dataSource.filter((item) => item.key !== key),
-    });
+  const handleDelete = (key) => {
+    const dataSource = [...dataSource];
+    setDataSource(dataSource.filter((item) => item.key !== key));
   };
-  handlePromptDropdown=(e)=>{
+  const handlePromptDropdown=(e)=>{
       debugger
       if(e.currentTarget.innerText == 'hi'){
-        this.setState({
-            dataSource : [{
+        setDataSource(
+            [{
                 key: 56,
                 name: `hi King `,
                 age: '32',
                 address: `London, Park Lane no. `,
               }]
-        })
+        )
       }
   }
-  handleAdd = () => {
+  const handleAdd = () => {
       debugger
-    const { count, dataSource } = this.state;
+    // const { count, dataSource } = state;
     const newData = {
       key: count,
       name: `Edward King ${count}`,
@@ -177,31 +181,29 @@ class EditableTable extends React.Component {
       address: `London, Park Lane no. ${count}`,
     };
     dataSource.reverse();
-    this.setState({
-      dataSource: [...dataSource, newData],
-      count: count + 1,
-    });
+    setDataSource(
+     [...dataSource, newData]
+    );
+    setCount(count + 1)
   };
-  handleSave = (row) => {
+  const handleSave = (row) => {
       debugger
-    const newData = [...this.state.dataSource];
+    const newData = [...dataSource];
     const index = newData.findIndex((item) => row.key === item.key);
     const item = newData[index];
     newData.splice(index, 1, { ...item, ...row });
-    this.setState({
-      dataSource: newData,
-    });
+    setDataSource(newData);
   };
 
-  render() {
-    const { dataSource } = this.state;
+
+    // const dataSource = dataSource;
     const components = {
       body: {
         row: EditableRow,
         cell: EditableCell,
       },
     };
-    const columns = this.columns.map((col) => {
+    columns = columns.map((col) => {
       if (!col.editable) {
         return col;
       }
@@ -213,7 +215,7 @@ class EditableTable extends React.Component {
           editable: col.editable,
           dataIndex: col.dataIndex,
           title: col.title,
-          handleSave: this.handleSave,
+          handleSave: handleSave,
         }),
       };
     });
@@ -222,7 +224,7 @@ class EditableTable extends React.Component {
           <div className="Table_upperButons">
           <div></div>
         <Button
-          onClick={this.handleAdd}
+          onClick={handleAdd}
           type='primary'
           style={{
             marginBottom: 16,
@@ -246,6 +248,6 @@ class EditableTable extends React.Component {
         />
       </div>
     );
-  }
+  
 }
 export default EditableTable

@@ -20,7 +20,9 @@ function SelectComponent(){
   const [selectedOption, setSelectedOption] = useState(null)
   const handleChange = (selectedOption) => {
     // this.setState({ selectedOption });
-    setSelectedOption(selectedOption)
+    debugger
+    tableDataForPageAction({name:"jn"});
+    setSelectedOption(selectedOption);
     console.log(`Option selected:`, selectedOption);
   };
  

@@ -9,12 +9,12 @@ export const userForProfileUI = (user) => {
 }
 
 
-export const tableDataForPageAction = (user) => {
-    console.log(user, "Lol")
+export const tableDataForPageAction = (tableData) => {
+    debugger
     return (dispatch) => {
         dispatch({
-            type: "user",
-            payload: user
+            type: "changeData",
+            payload: tableData
         });
     }
 }
