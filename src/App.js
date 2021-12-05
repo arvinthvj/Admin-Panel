@@ -15,6 +15,9 @@ import {
 import SignUp from './pages/Signup';
 import { collection, getDocs } from "firebase/firestore"; 
 import db from './firebase/index'
+import Sider from './pages/StudentsDashboard';
+import SiderDemo from './pages/StudentsDashboard';
+import ProfileStudent from './pages/StudentFrontendRoutes/Profile';
 
 function App() {
   const [usersLog, setUsersLog] = useState([]);
@@ -42,6 +45,13 @@ function App() {
           </Route>
           <Route path='/register'>
             <SignUp userDetails={usersLog}/>
+          </Route>
+          <Route path='/studentsPage' exact>
+            <SiderDemo/>
+          </Route>
+          <Route path='/studentsPage/profile'>
+          <SiderDemo propPage={ProfileStudent} />
+            
           </Route>
         </Switch>
       </div>

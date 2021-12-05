@@ -14,6 +14,7 @@ import { Alert } from 'antd';
 import {  LockOutlined } from '@ant-design/icons';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import RegistrationForm from "./Register";
+import { useHistory } from "react-router";
 const { Header, Content, Footer } = Layout;
 
 
@@ -24,6 +25,7 @@ const NormalLoginForm = ({isReg, userDetails}) => {
 const [inputUserEmail , setUserEmail] = useState("");
 const [inputUserPass, setUserPass] = useState("");
 const [errorUser,setErrorUser] = useState(false);
+const history = useHistory();
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
   };
@@ -37,8 +39,12 @@ const handleLogin=()=>{
     return o.email == inputUserEmail && o.password == inputUserPass
   })
   if(filteredIfItHas.length){
-    alert("yes has")
     setErrorUser(false)
+    history.push({
+      pathname: "/studentsPage",
+      hash: "#react",
+      state: { fromPopup: filteredIfItHas }
+    });
   }else{
     setErrorUser(true)
   }
