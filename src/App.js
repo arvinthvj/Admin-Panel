@@ -1,5 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
+import React, {useEffect, useState} from 'react'
 import Home from './pages/Home';
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux";
@@ -12,8 +13,26 @@ import {
   Link
 } from "react-router-dom";
 import SignUp from './pages/Signup';
+import { collection, getDocs } from "firebase/firestore"; 
+import db from './firebase/index'
 
 function App() {
+  const [usersLog, setUsersLog] = useState([]);
+ async function query(){
+   const querySnapshot = await getDocs(collection(db, "users"));
+    let userArray = [];
+    querySnapshot.forEach((doc) => {
+     userArray.push({email : doc.data().name, password : doc.data().password}) 
+    });
+    setUsersLog(userArray);
+  }
+
+
+  
+  useEffect(() => {
+   query();
+  }, [])
+
   return (
     <Router>
       <div className='App'>
@@ -22,7 +41,7 @@ function App() {
             <Home />
           </Route>
           <Route path='/register'>
-            <SignUp />
+            <SignUp userDetails={usersLog}/>
           </Route>
         </Switch>
       </div>

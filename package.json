@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^4.7.0",
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -10,6 +11,7 @@
     "axios": "^0.24.0",
     "excel": "^1.0.1",
     "export-xlsx": "^0.1.2",
+    "firebase": "^9.4.1",
     "formik": "^2.2.9",
     "node-sass": "^6.0.1",
     "react": "^17.0.2",
