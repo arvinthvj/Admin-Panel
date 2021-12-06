@@ -6,26 +6,47 @@ import {
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
+import { Redirect, useHistory } from 'react-router';
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
 
-function SiderDemo ({propPage}){
+function SiderDemo ({propPage,key}){
   const [collapsed, setcollapsed] =useState(false)
-
+  const [navList, setNavList] =useState([]);
+  const [selectionNo, setSelectionNo] = useState(['1']);
+  const history = useHistory();
+  useEffect(() => {
+    debugger
+    let listOfNavs = ["Profile","Users"]
+    setSelectionNo(key)
+  }, [])
   const onCollapse = () => {
     setcollapsed(!collapsed);
   };
 
-  
+  const sliderHandlerChange=(e)=>{
+    debugger
+    
+    // history.push({
+    //   pathname: "studentsPage/profile",
+    //   hash: "",
+    //   state: { keyForSelection: e.key }
+    // });
+    
+    
+
+  }
     return (
       <Layout style={{ minHeight: '100vh' }}>
-        <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
+        <Sider  collapsible collapsed={collapsed} onCollapse={onCollapse}>
           <div className="logo" />
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+          
+
+          <Menu onClick={(e)=>{sliderHandlerChange(e)}} theme="dark" defaultSelectedKeys={history.location.state.state.keyForSelection} mode="inline">
             <Menu.Item key="1" icon={<PieChartOutlined />}>
-              Profile
+            Profile
             </Menu.Item>
             <Menu.Item key="2" icon={<DesktopOutlined />}>
               Option 2

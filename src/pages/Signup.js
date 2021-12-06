@@ -41,9 +41,9 @@ const handleLogin=()=>{
   if(filteredIfItHas.length){
     setErrorUser(false)
     history.push({
-      pathname: "/studentsPage",
+      pathname: "/studentsPage/profile",
       hash: "#react",
-      state: { fromPopup: filteredIfItHas }
+      state: { fromPopup: filteredIfItHas , state: { keyForSelection: ['1'] }}
     });
   }else{
     setErrorUser(true)

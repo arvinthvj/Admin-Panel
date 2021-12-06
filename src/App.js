@@ -43,16 +43,16 @@ function App() {
           <Route path='/dashboard'>
             <Home />
           </Route>
-          <Route path='/register'>
+          <Route path='/' exact>
             <SignUp userDetails={usersLog}/>
           </Route>
           <Route path='/studentsPage' exact>
             <SiderDemo/>
           </Route>
           <Route path='/studentsPage/profile'>
-          <SiderDemo propPage={ProfileStudent} />
-            
+          <SiderDemo propPage={ProfileStudent} key={['2']} />
           </Route>
+          
         </Switch>
       </div>
     </Router>
