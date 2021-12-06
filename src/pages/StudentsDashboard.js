@@ -6,13 +6,13 @@ import {
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
+import '.././Styles/studentsLayout.scss'
 import React, { useState,useEffect } from 'react'
 import { Redirect, useHistory } from 'react-router';
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-
-function SiderDemo ({propPage,key}){
+function SiderDemo ({PropPage,key}){
   const [collapsed, setcollapsed] =useState(false)
   const [navList, setNavList] =useState([]);
   const [selectionNo, setSelectionNo] = useState(['1']);
@@ -73,7 +73,7 @@ function SiderDemo ({propPage,key}){
               <Breadcrumb.Item>Bill</Breadcrumb.Item>
             </Breadcrumb>
 
-            {propPage ? propPage() : <div></div>}
+            {PropPage ? PropPage : <div></div>}
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
               Bill is a cat.
             </div>

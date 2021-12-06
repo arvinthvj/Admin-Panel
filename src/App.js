@@ -50,7 +50,7 @@ function App() {
             <SiderDemo/>
           </Route>
           <Route path='/studentsPage/profile'>
-          <SiderDemo propPage={ProfileStudent} key={['2']} />
+          <SiderDemo PropPage={<ProfileStudent/>} key={['2']} />
           </Route>
           
         </Switch>

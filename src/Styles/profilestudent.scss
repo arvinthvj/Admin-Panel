@@ -1,0 +1,25 @@
+.toHideCols{
+    max-height: 169px;
+    height: 169px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.master_col_group_profile{
+    display: flex;
+    justify-content: space-around;
+    // flex-wrap: wrap;
+}
+.colg{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row-reverse;
+    height: 141px;
+    width: 400px;
+    background-color: white;
+    margin: 1%;
+    font-size: x-large;
+}
