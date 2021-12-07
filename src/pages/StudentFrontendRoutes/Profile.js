@@ -7,6 +7,20 @@ import { Progress } from 'antd';
 
 
 function RenderCard(){
+  const [countAttendance ,setCountAttendance] =useState(0);
+  useEffect(() => {
+    let count = 0;
+    let needed = 89;
+    let neededTimer =setInterval(() => {
+      if(count<needed){
+        setCountAttendance(count);
+      }else{
+        clearInterval(neededTimer)
+      }
+      count++;
+    }, 20);
+   
+  }, [])
     return (
       <div className='master_col_group_profile'>
         
@@ -23,7 +37,7 @@ function RenderCard(){
                   "0%": "#108ee9",
                   "100%": "#87d068",
                 }}
-                percent={70}
+                percent={countAttendance}
                 
               />
               <div>
