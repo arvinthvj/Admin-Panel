@@ -18,6 +18,7 @@ import db from './firebase/index'
 import Sider from './pages/StudentsDashboard';
 import SiderDemo from './pages/StudentsDashboard';
 import ProfileStudent from './pages/StudentFrontendRoutes/Profile';
+import RightBody from './pages/RightBody';
 
 function App() {
   const [usersLog, setUsersLog] = useState([]);
@@ -50,7 +51,10 @@ function App() {
             <SiderDemo/>
           </Route>
           <Route path='/studentsPage/profile'>
-          <SiderDemo PropPage={<ProfileStudent/>} key={['2']} />
+          <SiderDemo PropPage={<ProfileStudent/>} key={['1']} />
+          </Route>
+          <Route path='/studentsPage/day-fill'>
+          <SiderDemo PropPage={<RightBody/>} key={['2']} />
           </Route>
           
         </Switch>

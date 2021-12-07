@@ -28,7 +28,13 @@ function SiderDemo ({PropPage,key}){
 
   const sliderHandlerChange=(e)=>{
     debugger
-    
+    let keysFromValues = ["profile","day-fill"];
+    let value = keysFromValues[parseInt(e.key-1)];
+    history.push({
+      pathname: `/studentsPage/${value}`,
+      hash: "",
+      state: {  state: { keyForSelection: e.keyPath }}
+    });
     // history.push({
     //   pathname: "studentsPage/profile",
     //   hash: "",
