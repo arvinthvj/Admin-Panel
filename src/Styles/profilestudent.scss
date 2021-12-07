@@ -17,9 +17,39 @@
     justify-content: space-around;
     align-items: center;
     flex-direction: row-reverse;
-    height: 141px;
-    width: 400px;
+    height: 10rem;
+    width: 49rem;
     background-color: white;
     margin: 1%;
     font-size: x-large;
+}
+
+.RenderTeamDetailsMaster{
+    display: flex;
+    justify-content: center;
+    margin: 1%;
+}
+.RenderTeamDetailsChild2{
+    display: flex;
+    flex: 0.2;
+    // justify-content: end;
+}
+
+
+.RenderCountAndFeedBackMaster{
+flex: .8;
+}
+
+.RenderTimeLneInMaster{
+    padding-right: 11%;
+    padding-top: 5%;
+    background: white;
+    height: 36rem;
+}
+
+.REnderTimeline_timeline_text{
+    font-size: 1rem;
+    font-weight: 600;
+    position: relative;
+    margin-top: -1rem;
 }
