@@ -19,6 +19,7 @@ import Sider from './pages/StudentsDashboard';
 import SiderDemo from './pages/StudentsDashboard';
 import ProfileStudent from './pages/StudentFrontendRoutes/Profile';
 import RightBody from './pages/RightBody';
+import Demo from './pages/StudentFrontendRoutes/ProgressFillUp';
 
 function App() {
   const [usersLog, setUsersLog] = useState([]);
@@ -56,7 +57,9 @@ function App() {
           <Route path='/studentsPage/day-fill'>
           <SiderDemo PropPage={<RightBody/>} key={['2']} />
           </Route>
-          
+          <Route path='/studentsPage/profile-fill'>
+          <SiderDemo PropPage={<Demo/>} key={['3']} />
+          </Route>
         </Switch>
       </div>
     </Router>

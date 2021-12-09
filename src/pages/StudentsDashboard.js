@@ -28,7 +28,7 @@ function SiderDemo ({PropPage,key}){
 
   const sliderHandlerChange=(e)=>{
     debugger
-    let keysFromValues = ["profile","day-fill"];
+    let keysFromValues = ["profile","day-fill", "profile-fill"];
     let value = keysFromValues[parseInt(e.key-1)];
     history.push({
       pathname: `/studentsPage/${value}`,
@@ -54,14 +54,12 @@ function SiderDemo ({PropPage,key}){
             <Menu.Item key="1" icon={<PieChartOutlined />}>
             Profile
             </Menu.Item>
-            <Menu.Item key="2" icon={<DesktopOutlined />}>
-              Option 2
+            <Menu.Item key="2" icon={<UserOutlined />} title="User">
+              Users
             </Menu.Item>
-            <SubMenu key="sub1" icon={<UserOutlined />} title="User">
-              <Menu.Item key="3">Tom</Menu.Item>
-              <Menu.Item key="4">Bill</Menu.Item>
-              <Menu.Item key="5">Alex</Menu.Item>
-            </SubMenu>
+            <Menu.Item key="3" icon={<TeamOutlined />} title="User">
+              Progress Fill-Up
+            </Menu.Item>
             <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
               <Menu.Item key="6">Team 1</Menu.Item>
               <Menu.Item key="8">Team 2</Menu.Item>
