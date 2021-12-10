@@ -78,9 +78,7 @@ function SiderDemo ({PropPage,key}){
             </Breadcrumb>
 
             {PropPage ? PropPage : <div></div>}
-            <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-              User is logged in 
-            </div>
+           
           </Content>
           <Footer style={{ textAlign: 'center' }}>Footer</Footer>
         </Layout>

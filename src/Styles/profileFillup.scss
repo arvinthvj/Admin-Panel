@@ -1,7 +1,27 @@
 .ProgressFillMasterOriginal{
     display: flex;
     justify-content: center;
+    max-height: 74vh;
+    height: 54rem;
+    align-items: center;
 }
 .ProgressFillMaster{
-   
+    flex: .8;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    width: 48rem;
+}
+.steps-action{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 5rem;
+}
+.profilefillmasterstepholder{
+    display: flex;
+    justify-content: center;
+}
+.profilefillupstepsholder{
+    width: 70vw;
 }

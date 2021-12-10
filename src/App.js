@@ -23,13 +23,14 @@ import Demo from './pages/StudentFrontendRoutes/ProgressFillUp';
 
 function App() {
   const [usersLog, setUsersLog] = useState([]);
- async function query(){
+  async function query(){
    const querySnapshot = await getDocs(collection(db, "users"));
     let userArray = [];
     querySnapshot.forEach((doc) => {
-     userArray.push({email : doc.data().name, password : doc.data().password}) 
+     userArray.push({email : doc.data().name, password : doc.data().password, username : doc.data().username , batch :doc.data().batch} ) 
     });
     setUsersLog(userArray);
+    sessionStorage.setItem("teammembers", JSON.stringify(userArray))
   }
 
 

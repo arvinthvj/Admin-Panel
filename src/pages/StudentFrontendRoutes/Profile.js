@@ -9,6 +9,7 @@ import { Statistic } from 'antd';
 import { LikeOutlined } from '@ant-design/icons';
 import { Timeline } from 'antd';
 import { ClockCircleOutlined } from '@ant-design/icons';
+import { useHistory } from "react-router";
 
 const data = [
   {
@@ -24,6 +25,8 @@ const data = [
     title: "Team Member 4",
   },
 ];
+
+
 function RenderTimeline (){
   return (
     <div className="RenderTimeLneInMaster">
@@ -47,6 +50,19 @@ function RenderTimeline (){
   )
 }
 function RenderTeamDetails() {
+  const [teamMembers, setTeamMembers] = useState([]);
+  useEffect(()=>{
+    let filterBatchMembers = [];
+    if(sessionStorage.getItem("teammembers")){
+      if(sessionStorage.getItem("user")){
+        let userbatch = JSON.parse(sessionStorage.getItem("user"));
+        filterBatchMembers = JSON.parse(sessionStorage.getItem("teammembers")).filter(o=>{
+          return userbatch[0].batch == o.batch
+        })
+      }
+      setTeamMembers(filterBatchMembers)
+    }
+  },[])
   return (
     <>
     
@@ -64,12 +80,12 @@ function RenderTeamDetails() {
         >
           <List
             itemLayout='horizontal'
-            dataSource={data}
+            dataSource={teamMembers}
             renderItem={(item) => (
               <List.Item>
                 <List.Item.Meta
                   avatar={<Avatar src='https://joeschmoe.io/api/v1/random' />}
-                  title={<a href='https://ant.design'>{item.title}</a>}
+                  title={<a href='https://ant.design'>{item.username}</a>}
                   description='Ant Design, a design language for background applications, is refined by Ant UED Team'
                 />
               </List.Item>
@@ -83,9 +99,17 @@ function RenderTeamDetails() {
   );
 }
 
-function RenderCard() {
+function RenderCard(userDetails) {
+  debugger
   const [countAttendance, setCountAttendance] = useState(0);
+  const [userForAccInfo, setUserAccInfo] = useState([]);
   useEffect(() => {
+    if(userDetails && userDetails.length){
+      sessionStorage.setItem("user", JSON.stringify(userDetails));
+      setUserAccInfo(userDetails)
+    }else if(sessionStorage.getItem("user")){
+      setUserAccInfo(JSON.parse(sessionStorage.getItem("user")))
+    }
     let count = 0;
     let needed = 89;
     let neededTimer = setInterval(() => {
@@ -101,7 +125,7 @@ function RenderCard() {
     <div className='master_col_group_profile'>
       <div className='colonecard colg'>
         <Avatar size={64} icon={<UserOutlined />} />
-        <div>Account Info</div>
+        <div>{userForAccInfo.length ? userForAccInfo[0].username :"Account Info"}</div>
       </div>
 
       <div className='coltwocard colg'>
@@ -133,9 +157,13 @@ function RenderCard() {
 }
 
 function ProfileStudent() {
+  const history =useHistory();
+  const [sendTeamMembers, setTeamMembers]= useState([]);
+  
+  
   return (
     <>
-      {RenderCard()}
+      {RenderCard(history.location.state.fromPopup)}
       
       {RenderTeamDetails()}
       

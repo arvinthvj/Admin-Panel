@@ -43,7 +43,7 @@ const handleLogin=()=>{
     history.push({
       pathname: "/studentsPage/profile",
       hash: "#react",
-      state: { fromPopup: filteredIfItHas , state: { keyForSelection: ['1'] }}
+      state: { userDetails:filteredIfItHas, fromPopup: filteredIfItHas , state: { keyForSelection: ['1'] }}
     });
   }else{
     setErrorUser(true)
