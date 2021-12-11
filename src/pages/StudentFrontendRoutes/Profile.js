@@ -112,6 +112,7 @@ function RenderCard({historyUse, hookup}) {
   const [selfDays,setSelfDays] =useState(0);
   const [countAttendance, setCountAttendance] = useState(0);
   const [userForAccInfo, setUserAccInfo] = useState([]);
+  const [userAttendanceForDays, setUserAttendanceForDays] = useState(0);
   useEffect(()=>{
     if(historyUse && historyUse.length){
       sessionStorage.setItem("user", JSON.stringify(historyUse));
@@ -152,22 +153,54 @@ function RenderCard({historyUse, hookup}) {
     }
     getUserAssessmentData();
     
-    let count = 0;
-    let needed = 89;
-    let neededTimer = setInterval(() => {
-      if (count < needed+1) {
-        setCountAttendance(count);
-      } else {
-        clearInterval(neededTimer);
-      }
-      count++;
-    }, 20);
+    
   }, [userForAccInfo]);
+  useEffect(async() => {
+    const getUserAttendanceData=async()=>{
+      let toComapreWithFormat = JSON.parse(sessionStorage.getItem("user")) && JSON.parse(sessionStorage.getItem("user"))[0];
+      let compareFormatGenerator = toComapreWithFormat.email+"#"+toComapreWithFormat.batch+"#"+toComapreWithFormat.username;
+        let count =0;
+        const querySnapshot = await getDocs(collection(db, "userattendance"));
+         let attendanceWholeData= [];
+         querySnapshot.forEach((doc) => {
+          attendanceWholeData.push({absent : doc.data().absent, date : doc.data().date, present : doc.data().present , batchesConductedForTheDay:doc.data().batchesConductedForTheDay} ) 
+         });
+        debugger
+         let userCalcAttendance = attendanceWholeData.reduce((acc,curr)=>{
+           if(curr.present.includes(compareFormatGenerator)){
+              acc.push({...curr})
+           }
+           return acc
+         },[]);
+      debugger
+        let userBatchTotalDays =  attendanceWholeData.reduce((acc,curr)=>{
+          if(curr.batchesConductedForTheDay.includes(JSON.parse(sessionStorage.getItem("user"))[0].batch)){
+            acc++
+          }
+          return acc
+        },0);
+        let attendanceCalculatorPercentage = Number((userCalcAttendance.length / userBatchTotalDays) * 100);
+        let attendanceCalculatedDays = userBatchTotalDays;
+        setUserAttendanceForDays(attendanceCalculatedDays);
+        let countAtt = 0;
+        let neededAtt = attendanceCalculatorPercentage;
+        let neededTimerAtt = setInterval(() => {
+          if (countAtt < neededAtt + 1) {
+            setCountAttendance(countAtt);
+          } else {
+            clearInterval(neededTimerAtt);
+          }
+          countAtt++;
+        }, 20);
+    }
+    getUserAttendanceData();
+  }, [])
   return (
     <div className='master_col_group_profile'>
       <div className='colonecard colg'>
         <Avatar size={64} icon={<UserOutlined />} />
-        <div>{userForAccInfo.length ? userForAccInfo[0].username :"Account Info"}</div>
+        <div>{userForAccInfo.length ? userForAccInfo[0].username :"Account Info"}<h6>From Batch : {userForAccInfo[0] ? userForAccInfo[0].batch : "Loading..."}</h6></div>
+        
       </div>
 
       <div className='coltwocard colg'>
@@ -179,7 +212,7 @@ function RenderCard({historyUse, hookup}) {
           }}
           percent={countAttendance}
         />
-        <div>Your Attendance</div>
+        <div>Your Attendance <h6>Calculated For : {userAttendanceForDays} days</h6></div>
       </div>
 
       <div className='coltwocard colg'>

@@ -188,24 +188,6 @@ import { DatePicker, Space ,Modal } from 'antd';
           />
         </Form.Item>
   
-        
-       
-        
-        
-        {/* <Form.Item name="rate" label="Rate">
-          <Rate />
-        </Form.Item> */}
-  
-        
-  
-  {/* <Form.Item
-          label="Comments"
-        >
-          <TextArea rows={4} />
-          </Form.Item>
-          
-   */}
-       
           </>
         )
       },
@@ -243,7 +225,7 @@ import { DatePicker, Space ,Modal } from 'antd';
   };
   
   
-// Add a new document in collection "cities"
+
 async function saveDataToFb(obj){
   debugger
   const docRef = await addDoc(collection(db, "studentTaskDetails"), obj);

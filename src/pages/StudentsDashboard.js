@@ -28,7 +28,7 @@ function SiderDemo ({PropPage,key}){
 
   const sliderHandlerChange=(e)=>{
     debugger
-    let keysFromValues = ["profile","day-fill", "profile-fill"];
+    let keysFromValues = ["profile","day-fill", "profile-fill", "attendance","chart"];
     let value = keysFromValues[parseInt(e.key-1)];
     history.push({
       pathname: `/studentsPage/${value}`,
@@ -49,7 +49,7 @@ function SiderDemo ({PropPage,key}){
         <Sider  collapsible collapsed={collapsed} onCollapse={onCollapse}>
           <div className="logo" />
           <div className="logoMain">
-          <Avatar size={64} icon={<UserOutlined/>}/>
+          {/* <Avatar size={64} icon={<UserOutlined/>}/> */}
             </div>
           
      
@@ -63,12 +63,12 @@ function SiderDemo ({PropPage,key}){
             <Menu.Item key="3" icon={<TeamOutlined />} title="User">
               Progress Fill-Up
             </Menu.Item>
-            <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
-              <Menu.Item key="6">Team 1</Menu.Item>
-              <Menu.Item key="8">Team 2</Menu.Item>
-            </SubMenu>
-            <Menu.Item key="9" icon={<FileOutlined />}>
-              Files
+            
+            <Menu.Item key="4" icon={<FileOutlined />}>
+              Attendance
+            </Menu.Item>
+            <Menu.Item key="5" icon={<FileOutlined />}>
+              Chart
             </Menu.Item>
           </Menu>
         </Sider>
@@ -77,11 +77,11 @@ function SiderDemo ({PropPage,key}){
           <Header className="site-layout-background" style={{ padding: 0 }}  />
           
           <Content style={{ margin: '0 16px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
+            {/* <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>User</Breadcrumb.Item>
               <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
-            </Breadcrumb>
-
+            </Breadcrumb> */}
+            <br></br>
             {PropPage ? PropPage : <div></div>}
            
           </Content>

@@ -20,6 +20,8 @@ import SiderDemo from './pages/StudentsDashboard';
 import ProfileStudent from './pages/StudentFrontendRoutes/Profile';
 import RightBody from './pages/RightBody';
 import Demo from './pages/StudentFrontendRoutes/ProgressFillUp';
+import Attendance from './pages/AdminPages/AttendanceMaker';
+import ChartUserdp from './pages/amchartpages/ChartUserdp';
 
 function App() {
   window.userCurrent =[];
@@ -61,6 +63,12 @@ function App() {
           </Route>
           <Route path='/studentsPage/profile-fill'>
           <SiderDemo PropPage={<Demo/>} key={['3']} />
+          </Route>
+          <Route path='/studentsPage/attendance'>
+          <SiderDemo PropPage={<Attendance/>} key={['4']} />
+          </Route>
+          <Route path='/studentsPage/chart'>
+          <SiderDemo PropPage={<ChartUserdp/>} key={['5']} />
           </Route>
         </Switch>
       </div>
