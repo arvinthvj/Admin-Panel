@@ -22,6 +22,7 @@ import RightBody from './pages/RightBody';
 import Demo from './pages/StudentFrontendRoutes/ProgressFillUp';
 
 function App() {
+  window.userCurrent =[];
   const [usersLog, setUsersLog] = useState([]);
   async function query(){
    const querySnapshot = await getDocs(collection(db, "users"));

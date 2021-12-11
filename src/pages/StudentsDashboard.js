@@ -1,4 +1,4 @@
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu, Breadcrumb, Avatar } from 'antd';
 import {
   DesktopOutlined,
   PieChartOutlined,
@@ -48,8 +48,11 @@ function SiderDemo ({PropPage,key}){
       <Layout style={{ minHeight: '100vh' }}>
         <Sider  collapsible collapsed={collapsed} onCollapse={onCollapse}>
           <div className="logo" />
+          <div className="logoMain">
+          <Avatar size={64} icon={<UserOutlined/>}/>
+            </div>
           
-
+     
           <Menu onClick={(e)=>{sliderHandlerChange(e)}} theme="dark" defaultSelectedKeys={history.location.state.state.keyForSelection} mode="inline">
             <Menu.Item key="1" icon={<PieChartOutlined />}>
             Profile
@@ -70,7 +73,9 @@ function SiderDemo ({PropPage,key}){
           </Menu>
         </Sider>
         <Layout className="site-layout">
-          <Header className="site-layout-background" style={{ padding: 0 }} />
+          
+          <Header className="site-layout-background" style={{ padding: 0 }}  />
+          
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>User</Breadcrumb.Item>

@@ -169,7 +169,12 @@ import { DatePicker, Space ,Modal } from 'antd';
           
           <TextArea  autoSize/>
         </Form.Item>
-        <Form.Item name="slider" label="Rate your understanding">
+        <Form.Item name="slider" rules={[
+            {
+              required: true,
+              message: 'Please select your scale!',
+            },
+          ]} label="Rate your understanding">
           <Slider
           
             marks={{
@@ -258,12 +263,11 @@ async function saveDataToFb(obj){
         }
         window.sendObj[o] = values[o];
       })
-      
-      if(Object.keys(window.sendObj).length == 9){
+      Object.keys(JSON.parse(sessionStorage.getItem("user"))[0]).map(o=>{
+        window.sendObj[o] = JSON.parse(sessionStorage.getItem("user"))[0][o]
+      })
+      if(Object.keys(window.sendObj).length == 13){
         if(current == 2){
-          Object.keys(JSON.parse(sessionStorage.getItem("user"))[0]).map(o=>{
-            window.sendObj[o] = JSON.parse(sessionStorage.getItem("user"))[0][o]
-          })
           window.sendObj["Date-Pick"]= values["Date-Pick"]._d 
           saveDataToFb(window.sendObj);
           success();

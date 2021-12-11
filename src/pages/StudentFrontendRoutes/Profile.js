@@ -3,14 +3,17 @@ import React from "react";
 import { useState, useEffect } from "react";
 import "../../Styles/profilestudent.scss";
 import { Avatar, List } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { ContainerOutlined, UserOutlined } from "@ant-design/icons";
 import { Progress } from "antd";
 import { Statistic } from 'antd';
 import { LikeOutlined } from '@ant-design/icons';
 import { Timeline } from 'antd';
 import { ClockCircleOutlined } from '@ant-design/icons';
 import { useHistory } from "react-router";
-
+import db from "../../firebase";
+import { collection, query,where,getDocs } from "firebase/firestore"; 
+// var collectionfb = collection;
+const userTaskRef = collection(db, "studentTaskDetails");
 const data = [
   {
     title: "Team Member 1",
@@ -49,9 +52,11 @@ function RenderTimeline (){
 </div>
   )
 }
-function RenderTeamDetails() {
+
+function RenderTeamDetails({hookup}) {
   const [teamMembers, setTeamMembers] = useState([]);
-  useEffect(()=>{
+  useEffect(async()=>{debugger
+    
     let filterBatchMembers = [];
     if(sessionStorage.getItem("teammembers")){
       if(sessionStorage.getItem("user")){
@@ -61,6 +66,7 @@ function RenderTeamDetails() {
         })
       }
       setTeamMembers(filterBatchMembers)
+      // hookup(filterBatchMembers)
     }
   },[])
   return (
@@ -86,7 +92,7 @@ function RenderTeamDetails() {
                 <List.Item.Meta
                   avatar={<Avatar src='https://joeschmoe.io/api/v1/random' />}
                   title={<a href='https://ant.design'>{item.username}</a>}
-                  description='Ant Design, a design language for background applications, is refined by Ant UED Team'
+                  description='Your Teammate'
                 />
               </List.Item>
             )}
@@ -99,28 +105,64 @@ function RenderTeamDetails() {
   );
 }
 
-function RenderCard(userDetails) {
-  debugger
+function RenderCard({historyUse, hookup}) {
+  // debugger
+  const history = useHistory();
+  const [selfAssessment, setSelfAssessment]= useState(0);
+  const [selfDays,setSelfDays] =useState(0);
   const [countAttendance, setCountAttendance] = useState(0);
   const [userForAccInfo, setUserAccInfo] = useState([]);
-  useEffect(() => {
-    if(userDetails && userDetails.length){
-      sessionStorage.setItem("user", JSON.stringify(userDetails));
-      setUserAccInfo(userDetails)
+  useEffect(()=>{
+    if(historyUse && historyUse.length){
+      sessionStorage.setItem("user", JSON.stringify(historyUse));
+      window.userCurrent = historyUse;
+      setUserAccInfo(historyUse)
     }else if(sessionStorage.getItem("user")){
       setUserAccInfo(JSON.parse(sessionStorage.getItem("user")))
     }
+  },[])
+  useEffect(() => {
+    
+    const getUserAssessmentData=async()=>{
+      let count =0;
+      
+      let queryPut = await query(userTaskRef,where("email", "==", (JSON.parse(sessionStorage.getItem("user"))? JSON.parse(sessionStorage.getItem("user"))[0].email : "")));
+      const querySnapshot = await getDocs(queryPut);
+      let collArrayTask = [];
+      querySnapshot.forEach((doc) => {
+      collArrayTask.push(doc.data())
+    });
+      let assessmentCalculator = collArrayTask.reduce((acc,curr)=>{
+        acc += Number(curr.slider)
+        return acc
+      },0);
+      setSelfDays(collArrayTask.length)
+      let calculateAssesmentForAllDatesInPercent = (assessmentCalculator / collArrayTask.length);
+      console.log(calculateAssesmentForAllDatesInPercent);
+      let needed = calculateAssesmentForAllDatesInPercent;
+      let neededTimer = setInterval(() => {
+        if (count < needed+1) {
+          setSelfAssessment(count);
+        } else {
+          clearInterval(neededTimer);
+        }
+        count++;
+      }, 20);
+     
+    }
+    getUserAssessmentData();
+    
     let count = 0;
     let needed = 89;
     let neededTimer = setInterval(() => {
-      if (count < needed) {
+      if (count < needed+1) {
         setCountAttendance(count);
       } else {
         clearInterval(neededTimer);
       }
       count++;
     }, 20);
-  }, []);
+  }, [userForAccInfo]);
   return (
     <div className='master_col_group_profile'>
       <div className='colonecard colg'>
@@ -147,9 +189,11 @@ function RenderCard(userDetails) {
             "0%": "#108ee9",
             "100%": "#87d068",
           }}
-          percent={90}
+          percent={selfAssessment}
         />
-        <div>Self Assesments</div>
+        <div>Self Assesments
+          <h6>Calculated For : {selfDays} days</h6>
+        </div>
       </div>
       
     </div>
@@ -159,13 +203,13 @@ function RenderCard(userDetails) {
 function ProfileStudent() {
   const history =useHistory();
   const [sendTeamMembers, setTeamMembers]= useState([]);
-  
+  // const [hookupTeamUsersState, setHookUpTeamUsersState]= ([]);
   
   return (
     <>
-      {RenderCard(history.location.state.fromPopup)}
+      <RenderCard historyUse ={history.location.state.fromPopup} />
       
-      {RenderTeamDetails()}
+      <RenderTeamDetails />
       
     </>
   );
