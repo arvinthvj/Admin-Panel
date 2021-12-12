@@ -35,12 +35,6 @@ function SiderDemo ({PropPage,key}){
       hash: "",
       state: {  state: { keyForSelection: e.keyPath }}
     });
-    // history.push({
-    //   pathname: "studentsPage/profile",
-    //   hash: "",
-    //   state: { keyForSelection: e.key }
-    // });
-    
     
 
   }
@@ -49,7 +43,6 @@ function SiderDemo ({PropPage,key}){
         <Sider  collapsible collapsed={collapsed} onCollapse={onCollapse}>
           <div className="logo" />
           <div className="logoMain">
-          {/* <Avatar size={64} icon={<UserOutlined/>}/> */}
             </div>
           
      
@@ -77,15 +70,11 @@ function SiderDemo ({PropPage,key}){
           <Header className="site-layout-background" style={{ padding: 0 }}  />
           
           <Content style={{ margin: '0 16px' }}>
-            {/* <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
-            </Breadcrumb> */}
             <br></br>
             {PropPage ? PropPage : <div></div>}
            
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Footer</Footer>
+          <Footer style={{ textAlign: 'center' }}>© CITMA</Footer>
         </Layout>
       </Layout>
     );

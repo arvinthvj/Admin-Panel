@@ -11,7 +11,13 @@ import {
   Button,
   AutoComplete,
 } from 'antd';
+import { doc, updateDoc } from '@firebase/firestore';
+import db from '../firebase';
+import { useHistory } from 'react-router';
 const { Option } = Select;
+
+
+
 const residences = [
   {
     value: 'zhejiang',
@@ -78,33 +84,47 @@ const tailFormItemLayout = {
 };
 
 const RegistrationForm = () => {
+  const history = useHistory();
   const [form] = Form.useForm();
+  const onFinish = async (values) => {
+    debugger;
+    console.log("Received values of form: ", values);
+    if(values.currentPassword != JSON.parse(sessionStorage.getItem("user"))[0].password){
+      return false
+    }
+    const washingtonRef = doc(db, "users", JSON.parse(sessionStorage.getItem("user"))[0].id);
 
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+    // Set the "capital" field of the city 'DC'
+   let updated= await updateDoc(washingtonRef, {
+      password: values.password,
+    });
+    debugger
+    // if(updated.id){
+      window.location.reload();
+    // }
   };
 
   const prefixSelector = (
-    <Form.Item name="prefix" noStyle>
+    <Form.Item name='prefix' noStyle>
       <Select
         style={{
           width: 70,
         }}
       >
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
+        <Option value='86'>+86</Option>
+        <Option value='87'>+87</Option>
       </Select>
     </Form.Item>
   );
   const suffixSelector = (
-    <Form.Item name="suffix" noStyle>
+    <Form.Item name='suffix' noStyle>
       <Select
         style={{
           width: 70,
         }}
       >
-        <Option value="USD">$</Option>
-        <Option value="CNY">¥</Option>
+        <Option value='USD'>$</Option>
+        <Option value='CNY'>¥</Option>
       </Select>
     </Form.Item>
   );
@@ -114,7 +134,9 @@ const RegistrationForm = () => {
     if (!value) {
       setAutoCompleteResult([]);
     } else {
-      setAutoCompleteResult(['.com', '.org', '.net'].map((domain) => `${value}${domain}`));
+      setAutoCompleteResult(
+        [".com", ".org", ".net"].map((domain) => `${value}${domain}`)
+      );
     }
   };
 
@@ -126,23 +148,34 @@ const RegistrationForm = () => {
     <Form
       {...formItemLayout}
       form={form}
-      name="register"
+      name='register'
       onFinish={onFinish}
       initialValues={{
-        residence: ['zhejiang', 'hangzhou', 'xihu'],
-        prefix: '86',
+        residence: ["zhejiang", "hangzhou", "xihu"],
+        prefix: "86",
       }}
       scrollToFirstError
     >
-      
-
       <Form.Item
-        name="password"
-        label="Password"
+        name='currentPassword'
+        label='Current Password'
         rules={[
           {
             required: true,
-            message: 'Please input your password!',
+            message: "Please input your current password!",
+          },
+        ]}
+        hasFeedback
+      >
+        <Input.Password />
+      </Form.Item>
+      <Form.Item
+        name='password'
+        label='Password'
+        rules={[
+          {
+            required: true,
+            message: "Please input your password!",
           },
         ]}
         hasFeedback
@@ -151,22 +184,24 @@ const RegistrationForm = () => {
       </Form.Item>
 
       <Form.Item
-        name="confirm"
-        label="Confirm Password"
-        dependencies={['password']}
+        name='confirm'
+        label='Confirm Password'
+        dependencies={["password"]}
         hasFeedback
         rules={[
           {
             required: true,
-            message: 'Please confirm your password!',
+            message: "Please confirm your password!",
           },
           ({ getFieldValue }) => ({
             validator(_, value) {
-              if (!value || getFieldValue('password') === value) {
+              if (!value || getFieldValue("password") === value) {
                 return Promise.resolve();
               }
 
-              return Promise.reject(new Error('The two passwords that you entered do not match!'));
+              return Promise.reject(
+                new Error("The two passwords that you entered do not match!")
+              );
             },
           }),
         ]}
@@ -175,7 +210,7 @@ const RegistrationForm = () => {
       </Form.Item>
 
       <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" htmlType="submit">
+        <Button type='primary' htmlType='submit'>
           Register
         </Button>
       </Form.Item>

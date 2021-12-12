@@ -35,7 +35,7 @@ function RenderTimeline (){
     <div className="RenderTimeLneInMaster">
       <p className="REnderTimeline_timeline_text">TimeLine</p>
   <Timeline mode="alternate">
-  <Timeline.Item>Create a services site 2015-09-01</Timeline.Item>
+  <Timeline.Item>Phase 1: on time</Timeline.Item>
   <Timeline.Item color="green">Solve initial network problems 2015-09-01</Timeline.Item>
   <Timeline.Item dot={<ClockCircleOutlined style={{ fontSize: '16px' }} />}>
     Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
@@ -90,9 +90,9 @@ function RenderTeamDetails({hookup}) {
             renderItem={(item) => (
               <List.Item>
                 <List.Item.Meta
-                  avatar={<Avatar src='https://joeschmoe.io/api/v1/random' />}
-                  title={<a href='https://ant.design'>{item.username}</a>}
-                  description='Your Teammate'
+                  avatar={<Avatar size={60} src={require(`../Images/${item.email}.jpeg`).default} />}
+                  title={item.username}
+                  description='Your Batchmate'
                 />
               </List.Item>
             )}
@@ -117,6 +117,7 @@ function RenderCard({historyUse, hookup}) {
     if(historyUse && historyUse.length){
       sessionStorage.setItem("user", JSON.stringify(historyUse));
       window.userCurrent = historyUse;
+      debugger
       setUserAccInfo(historyUse)
     }else if(sessionStorage.getItem("user")){
       setUserAccInfo(JSON.parse(sessionStorage.getItem("user")))
@@ -195,10 +196,15 @@ function RenderCard({historyUse, hookup}) {
     }
     getUserAttendanceData();
   }, [])
+
   return (
     <div className='master_col_group_profile'>
       <div className='colonecard colg'>
-        <Avatar size={64} icon={<UserOutlined />} />
+
+        {/* <Avatar size={64} icon={<UserOutlined />} /> */}
+        {userForAccInfo.length ? <Avatar size={90} src={require(`../Images/${userForAccInfo[0].email}.jpeg`).default} />:<Avatar size={64} icon={<UserOutlined />} /> }
+        {/* <img src="../Images/aruldass.6134@citma.in.jpeg"></img> */}
+        {/* <img src={require(`../Images/aruldass.6134@citma.in.jpeg`).default} /> */}
         <div>{userForAccInfo.length ? userForAccInfo[0].username :"Account Info"}<h6>From Batch : {userForAccInfo[0] ? userForAccInfo[0].batch : "Loading..."}</h6></div>
         
       </div>
