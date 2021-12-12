@@ -1,119 +1,174 @@
-import React, { useRef, useLayoutEffect } from 'react';
-// import logo from './logo.svg';
-// import './App.css';
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import React ,{useEffect, useState}from 'react';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Spin } from 'antd';
+import { Bar } from 'react-chartjs-2';
+import randomColor from 'randomcolor';
+import faker from 'faker';
+import { collection, getDocs } from '@firebase/firestore';
+import db from '../../firebase';
+import './chart.css'
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-am4core.useTheme(am4themes_animated);
 
-function AmchartApp(props) {
-  const chart = useRef(null);
+let  options = {
+  responsive: true,
+  scales: {
+    x: {
+      min :0
+    },
+    y: {
+      max: 100,
+    },
+  },
+  plugins: {
+    legend: {
+      position: 'top' ,
+    },
+    title: {
+      display: true,
+      text: 'Chart.js Bar Chart',
+    },
+  },
+};
 
-  useLayoutEffect(() => {
-    let x = am4core.create("chartdiv", {
-        "type": "serial",
-        "categoryField": "category",
-        "startDuration": 1,
-        "categoryAxis": {
-            "gridPosition": "start"
-        },
-        "trendLines": [],
-        "graphs": [
-            {
-                "balloonText": "[[title]] of [[category]]:[[value]]",
-                "fillAlphas": 1,
-                "id": "AmGraph-1",
-                "title": "graph 1",
-                "type": "column",
-                "valueField": "column-1"
-            },
-            {
-                "balloonText": "[[title]] of [[category]]:[[value]]",
-                "fillAlphas": 1,
-                "id": "AmGraph-2",
-                "title": "graph 2",
-                "type": "column",
-                "valueField": "column-2"
-            }
-        ],
-        "guides": [],
-        "valueAxes": [
-            {
-                "id": "ValueAxis-1",
-                "title": "Axis title"
-            }
-        ],
-        "allLabels": [],
-        "balloon": {},
-        "legend": {
-            "enabled": true,
-            "useGraphSettings": true
-        },
-        "titles": [
-            {
-                "id": "Title-1",
-                "size": 15,
-                "text": "Chart Title"
-            }
-        ],
-        "dataProvider": [
-            {
-                "category": "category 1",
-                "column-1": 8,
-                "column-2": 5
-            },
-            {
-                "category": "category 2",
-                "column-1": 6,
-                "column-2": 7
-            },
-            {
-                "category": "category 3",
-                "column-1": 2,
-                "column-2": 3
-            }
-        ]
-    });
 
-    x.paddingRight = 20;
+let sampleObjToCreate = {
+  label: 'Name',
+  data: [70],
+  backgroundColor: 'rgba(53, 162, 235, 0.5)',
+};
+const labels = ["Self Assesment"];
 
-    let data = [];
-    let visits = 10;
-
-    for (let i = 1; i < 366; i++) {
-      visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-      data.push({ date: new Date(2018, 0, i), name: "name" + i, value: visits });
+const data = {
+  labels,
+  datasets: [
+    {
+      label: 'Dataset 1',
+      data: [
+        873,
+        46,
+        243,
+        509,
+        277,
+        961,
+        907
+    ],
+      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+    },
+    {
+      label: 'Dataset 2',
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+    },
+    {
+      label: 'Dataset 3',
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+    },
+  ],
+};
+export default function ChartUserdp({batchNoFromTab}) {
+  const [batchNoOnClickFromTab, setbatchNoOnClickFromTab] = useState(batchNoFromTab|| 7);
+  const [dataForMembers,setDataForMembers] = useState(data);
+  const [chartLoadChecker, setchartLoadChecker] = useState(false);
+  const [optionsDynamic, setOptionsDynamic] = useState(options);
+  useEffect(()=>{
+    if(batchNoFromTab){
+      setbatchNoOnClickFromTab(batchNoFromTab)
     }
+    
+  },[]);
+  useEffect(() => {
+    async function getallData(){
+      const querySnapshot = await getDocs(collection(db, "studentTaskDetails"));
+       let userArray = [];
+       querySnapshot.forEach((doc) => {
+        userArray.push(doc.data()) 
+       });
+       debugger
+       let membersFilterFromBatch = userArray.filter(filterIt=>{
+         return filterIt.batch == batchNoOnClickFromTab
+       });
+       let memberNamesFromBatch = [...new Set (membersFilterFromBatch.map(o=>{
+         return o.username
+       }))];
+       let calculateByStudent = memberNamesFromBatch.map((member) => {
+         let count =0;
+         let specifiedMemberOnloopFilter = membersFilterFromBatch
+           .filter((a) => {
+             return a.username == member;
+           })
+           .reduce((acc, filteredForMember) => {
+             acc += filteredForMember.slider;
+             count++;
+             return acc;
+           }, 0);
 
-    x.data = data;
+         return { label: member, data: [((specifiedMemberOnloopFilter/((membersFilterFromBatch.length)*100))*100).toFixed(1)],  backgroundColor: randomColor({
+          luminosity: 'dark',
+          format: 'rgba',
+          alpha: 0.5 // e.g. 'rgba(9, 1, 107, 0.5)',
+       })};
+       });
 
-    let dateAxis = x.xAxes.push(new am4charts.DateAxis());
-    dateAxis.renderer.grid.template.location = 0;
+       let preparedDataSet = {
+         labels, 
+         datasets : calculateByStudent
+       };
+       let  optionsGenerated = {
+        responsive: true,
+        scales: {
+          x: {
+            min :0
+          },
+          y: {
+            max: 100,
+          },
+        },
+        plugins: {
+          legend: {
+            position: 'top' ,
+          },
+          title: {
+            display: true,
+            text: `TOTAL DAYS - ${membersFilterFromBatch.length}`,
+          },
+        },
+      };
+debugger
+       setOptionsDynamic(optionsGenerated);
+       setDataForMembers(preparedDataSet);
+       setchartLoadChecker(true);
+debugger
+      //  let totalValueCalculator = batchesCalc.map(batchNo=>{
 
-    let valueAxis = x.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.tooltip.disabled = true;
-    valueAxis.renderer.minWidth = 35;
-
-    let series = x.series.push(new am4charts.LineSeries());
-    series.dataFields.dateX = "date";
-    series.dataFields.valueY = "value";
-    series.tooltipText = "{valueY.value}";
-    x.cursor = new am4charts.XYCursor();
-
-    let scrollbarX = new am4charts.XYChartScrollbar();
-    scrollbarX.series.push(series);
-    x.scrollbarX = scrollbarX;
-
-    chart.current = x;
-
-    return () => {
-      x.dispose();
-    };
+      //  })
+       console.log(userArray);
+     };
+     getallData();
   }, []);
+  debugger
+  
+
 
   return (
-    <div id="chartdiv" style={{ width: "100%", height: "500px" }}></div>
-  );
+    <div className="chartMaster">
+    {chartLoadChecker ? (<Bar options={optionsDynamic} width={400} data={dataForMembers}/>) : (<div className="spinner_chart"><Spin/></div>)}
+    </div>
+    );
 }
-export default AmchartApp;

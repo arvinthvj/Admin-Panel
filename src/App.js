@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from 'redux'
-import { actionCreators } from "./state/index"
+import { actionCreators } from "./state/index";
 import {
   BrowserRouter as Router,
   Switch,
@@ -21,7 +21,7 @@ import ProfileStudent from './pages/StudentFrontendRoutes/Profile';
 import RightBody from './pages/RightBody';
 import Demo from './pages/StudentFrontendRoutes/ProgressFillUp';
 import Attendance from './pages/AdminPages/AttendanceMaker';
-import ChartUserdp from './pages/amchartpages/ChartUserdp';
+import TabSwitchers from './pages/amchartpages/TabSwitchers';
 
 function App() {
   window.userCurrent =[];
@@ -68,7 +68,7 @@ function App() {
           <SiderDemo PropPage={<Attendance/>} key={['4']} />
           </Route>
           <Route path='/studentsPage/chart'>
-          <SiderDemo PropPage={<ChartUserdp/>} key={['5']} />
+          <SiderDemo PropPage={<TabSwitchers/>} key={['5']} />
           </Route>
         </Switch>
       </div>

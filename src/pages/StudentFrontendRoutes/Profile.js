@@ -167,14 +167,14 @@ function RenderCard({historyUse, hookup}) {
          });
         debugger
          let userCalcAttendance = attendanceWholeData.reduce((acc,curr)=>{
-           if(curr.present.includes(compareFormatGenerator)){
+           if((curr.present || []).includes(compareFormatGenerator)){
               acc.push({...curr})
            }
            return acc
          },[]);
       debugger
         let userBatchTotalDays =  attendanceWholeData.reduce((acc,curr)=>{
-          if(curr.batchesConductedForTheDay.includes(JSON.parse(sessionStorage.getItem("user"))[0].batch)){
+          if((curr.batchesConductedForTheDay || []).includes(JSON.parse(sessionStorage.getItem("user"))[0].batch)){
             acc++
           }
           return acc

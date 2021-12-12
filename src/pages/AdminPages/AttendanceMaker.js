@@ -185,6 +185,11 @@ function Attendance() {
 
   const handleSubmitAttendance=()=>{
     debugger
+    if(JSON.parse(sessionStorage.user)[0].email != "arvinth@citma"){
+      alert("You are not authorized to perform this action");
+      return false
+    }
+    debugger
     let dataCopy= Object.assign({}, attendanceDataTosend);
     saveAttendanceDataToFb(dataCopy)
     
@@ -247,7 +252,7 @@ function Attendance() {
             type="primary"
             onClick={() => handleSubmitAttendance()}
           >
-            Click me!
+            Submit
           </Button>
       </>
     );

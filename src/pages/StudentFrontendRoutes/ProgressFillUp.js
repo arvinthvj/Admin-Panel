@@ -12,6 +12,7 @@ import {
     Input,
     Row,
     Col,
+    Spin,
   } from 'antd';
   import { Steps,message } from 'antd';
   import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
@@ -19,7 +20,7 @@ import {
 import Clock from 'react-clock';
 import { DatePicker, Space ,Modal } from 'antd';
   import "../../Styles/profileFillup.scss";
-  import { collection, addDoc } from "firebase/firestore"; 
+  import { collection, addDoc ,getDocs} from "firebase/firestore"; 
   import db from '../../firebase/index';
 // import moment from 'moment';
   const { Step } = Steps;
@@ -226,16 +227,42 @@ import { DatePicker, Space ,Modal } from 'antd';
   
   
 
-async function saveDataToFb(obj){
-  debugger
-  const docRef = await addDoc(collection(db, "studentTaskDetails"), obj);
-  console.log("Document written with ID: ", docRef.id);
-}
+
 
 
 
   const Demo = () => {
+    const [loadSpinState, setloadSpinState] = useState(false);
     
+    async function saveDataToFb(obj){
+      setloadSpinState(true);
+     let querySnapshot = await getDocs(collection(db, "studentTaskDetails"));
+           let userArray = [];
+           querySnapshot.forEach((doc) => {
+            userArray.push(doc.data()) 
+           });
+           let filterByUser = userArray.filter(o=>{
+             return (obj.email == o.email)&& (o["Date-Pick"] == obj["Date-Pick"])
+           });
+          
+      if(filterByUser.length == 0){
+        saveDataNowAfterCheck(obj)
+      }else{
+        setloadSpinState(false);
+        alert("This has already submitteed for this date")
+      }
+    }
+    async function saveDataNowAfterCheck(obj){
+      debugger
+      const docRef = await addDoc(collection(db, "studentTaskDetails"), obj);
+      console.log("Document written with ID: ", docRef.id);
+      if(docRef.id){
+        setloadSpinState(false);
+        success();
+      }else{
+        alert("there is a problem")
+      }
+    }
     const [current, setCurrent] = useState(0);
     const onFinish = (values) => {
       debugger
@@ -250,9 +277,10 @@ async function saveDataToFb(obj){
       })
       if(Object.keys(window.sendObj).length == 13){
         if(current == 2){
-          window.sendObj["Date-Pick"]= values["Date-Pick"]._d 
+
+          window.sendObj["Date-Pick"]= values["Date-Pick"]["_d"].toDateString();
           saveDataToFb(window.sendObj);
-          success();
+          
         }else{
           next();
         }
@@ -273,6 +301,7 @@ async function saveDataToFb(obj){
       setCurrent(current - 1);
     };
     return (
+      <Spin spinning={loadSpinState}>
       <div className="profilefilluptotalcontainer">
         <div className="profilefillmasterstepholder">
         <div className="profilefillupstepsholder">
@@ -333,6 +362,7 @@ async function saveDataToFb(obj){
       
       </div>
       </div>
+      </Spin>
     );
   };
   
