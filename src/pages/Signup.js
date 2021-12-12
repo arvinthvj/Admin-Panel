@@ -51,6 +51,11 @@ const handleLogin=()=>{
   console.log(inputUserEmail)
 }
   return (
+    <>
+    <div className="regButtonSignup">
+    
+    </div>
+    
     <Form
       name="normal_login"
       className="login-form"
@@ -99,14 +104,22 @@ const handleLogin=()=>{
           Forgot password
         </a>
       </Form.Item>
-
+      <div className="regButtonSignup">
       <Form.Item>
         <Button onClick={handleLogin} type="primary" htmlType="submit" className="login-form-button">
           Log in
         </Button>
         {/* Or <a  onClick={handleRegisterButton}>register now!</a> */}
       </Form.Item>
+    <Button onClick={handleRegisterButton} type="primary" htmlType="submit" className="login-form-button">
+    Change Password
+  </Button>
+    </div>
+      
+     
     </Form>
+    
+  </>
   );
 };
 const SignUp = ({userDetails}) => {
@@ -127,33 +140,13 @@ const SignUp = ({userDetails}) => {
       </Menu>
     </Header>
     <Content style={{ padding: "0 50px" , height: "80vh", width:"100vw" }}>
-      {/* <Breadcrumb style={{ margin: "16px 0" }}>
-        <Breadcrumb.Item>Home</Breadcrumb.Item>
-        <Breadcrumb.Item>List</Breadcrumb.Item>
-        <Breadcrumb.Item>App</Breadcrumb.Item>
-      </Breadcrumb> */}
+      
       <div className = "signup_inputs_big_master_holder">
       <div  className="signup_inputs_master_holder">
 
      {isRegister ? <div><RegistrationForm /></div> : <div><NormalLoginForm userDetails={userDetails} isReg={setIsRegister}/></div> }
       
-        {/* <Space size="large"> */}
-      {/* <Input
-      width ={600}
-      size = "large"
-      placeholder="Enter your username"
-      prefix={<UserOutlined className="site-form-item-icon" />}
-      suffix={
-        <Tooltip title="Extra information">
-          <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
-        </Tooltip>
-      }
-    />
-    <Input.Password
-      placeholder="input password"
-      iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-    /> */}
-    {/* </Space> */}
+      
     </div>
     </div>
    

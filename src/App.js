@@ -22,6 +22,7 @@ import RightBody from './pages/RightBody';
 import Demo from './pages/StudentFrontendRoutes/ProgressFillUp';
 import Attendance from './pages/AdminPages/AttendanceMaker';
 import TabSwitchers from './pages/amchartpages/TabSwitchers';
+import RegistrationForm from './pages/Register';
 
 function App() {
   window.userCurrent =[];
@@ -30,7 +31,7 @@ function App() {
    const querySnapshot = await getDocs(collection(db, "users"));
     let userArray = [];
     querySnapshot.forEach((doc) => {
-     userArray.push({email : doc.data().name, password : doc.data().password, username : doc.data().username , batch :doc.data().batch} ) 
+     userArray.push({id : doc.id, email : doc.data().name, password : doc.data().password, username : doc.data().username , batch :doc.data().batch} ) 
     });
     setUsersLog(userArray);
     sessionStorage.setItem("teammembers", JSON.stringify(userArray))
@@ -70,6 +71,7 @@ function App() {
           <Route path='/studentsPage/chart'>
           <SiderDemo PropPage={<TabSwitchers/>} key={['5']} />
           </Route>
+          
         </Switch>
       </div>
     </Router>
