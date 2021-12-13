@@ -57,19 +57,19 @@ function App() {
             <SiderDemo/>
           </Route>
           <Route path='/studentsPage/profile'>
-          <SiderDemo PropPage={<ProfileStudent/>} key={['1']} />
+          <SiderDemo userDetails={usersLog} PropPage={<ProfileStudent/>} key={['1']} />
           </Route>
           <Route path='/studentsPage/day-fill'>
-          <SiderDemo PropPage={<RightBody/>} key={['2']} />
+          <SiderDemo userDetails={usersLog} PropPage={<RightBody/>} key={['2']} />
           </Route>
           <Route path='/studentsPage/profile-fill'>
-          <SiderDemo PropPage={<Demo/>} key={['3']} />
+          <SiderDemo userDetails={usersLog} PropPage={<Demo/>} key={['3']} />
           </Route>
           <Route path='/studentsPage/attendance'>
-          <SiderDemo PropPage={<Attendance/>} key={['4']} />
+          <SiderDemo userDetails={usersLog} PropPage={<Attendance/>} key={['4']} />
           </Route>
           <Route path='/studentsPage/chart'>
-          <SiderDemo PropPage={<TabSwitchers/>} key={['5']} />
+          <SiderDemo userDetails={usersLog} PropPage={<TabSwitchers/>} key={['5']} />
           </Route>
           
         </Switch>

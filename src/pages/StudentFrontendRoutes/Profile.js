@@ -92,7 +92,7 @@ function RenderTeamDetails({hookup}) {
                 <List.Item.Meta
                   avatar={<Avatar size={60} src={require(`../Images/${item.email}.jpeg`).default} />}
                   title={item.username}
-                  description='Your Batchmate'
+                  description={item.email != "arvinth@citma" ? (item.email != "admin@citma" ? 'Your Batchmate' : "You are the admin"): "Trainer"}
                 />
               </List.Item>
             )}
@@ -205,7 +205,7 @@ function RenderCard({historyUse, hookup}) {
         {userForAccInfo.length ? <Avatar size={90} src={require(`../Images/${userForAccInfo[0].email}.jpeg`).default} />:<Avatar size={64} icon={<UserOutlined />} /> }
         {/* <img src="../Images/aruldass.6134@citma.in.jpeg"></img> */}
         {/* <img src={require(`../Images/aruldass.6134@citma.in.jpeg`).default} /> */}
-        <div>{userForAccInfo.length ? userForAccInfo[0].username :"Account Info"}<h6>From Batch : {userForAccInfo[0] ? userForAccInfo[0].batch : "Loading..."}</h6></div>
+        <div>{userForAccInfo.length ? userForAccInfo[0].username :"Account Info"}{userForAccInfo[0] && userForAccInfo[0].email != "admin@citma"? <h6>From Batch : {userForAccInfo[0] ? userForAccInfo[0].batch : "Loading..."}</h6> : <h6>ADMIN</h6>}</div>
         
       </div>
 

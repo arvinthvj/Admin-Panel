@@ -15,8 +15,13 @@ const { SubMenu } = Menu;
 function SiderDemo ({PropPage,key}){
   const [collapsed, setcollapsed] =useState(false)
   const [navList, setNavList] =useState([]);
+  const [checkIfUserIsAdmin, setCheckIfUserIsAdmin] = useState("");
   const [selectionNo, setSelectionNo] = useState(['1']);
   const history = useHistory();
+  useEffect(() => {
+    
+    setCheckIfUserIsAdmin(JSON.parse(sessionStorage.getItem("user"))[0].email)
+  }, [])
   useEffect(() => {
     debugger
     let listOfNavs = ["Profile","Users"]
@@ -50,19 +55,19 @@ function SiderDemo ({PropPage,key}){
             <Menu.Item key="1" icon={<PieChartOutlined />}>
             Profile
             </Menu.Item>
-            <Menu.Item key="2" icon={<UserOutlined />} title="User">
-              Users
-            </Menu.Item>
-            <Menu.Item key="3" icon={<TeamOutlined />} title="User">
+           {checkIfUserIsAdmin == "arvinth@citma" && <Menu.Item key="2" icon={<UserOutlined />} title="User">Users
+            </Menu.Item>} 
+              
+           {(checkIfUserIsAdmin != "admin@citma") && <Menu.Item key="3" icon={<TeamOutlined />} title="User">
               Progress Fill-Up
-            </Menu.Item>
+            </Menu.Item>}
             
-            <Menu.Item key="4" icon={<FileOutlined />}>
+            {(checkIfUserIsAdmin == "arvinth@citma") &&   <Menu.Item key="4" icon={<FileOutlined />}>
               Attendance
-            </Menu.Item>
-            <Menu.Item key="5" icon={<FileOutlined />}>
+            </Menu.Item>}
+            {(checkIfUserIsAdmin == "arvinth@citma" || checkIfUserIsAdmin == "admin@citma") &&  <Menu.Item key="5" icon={<PieChartOutlined />}>
               Chart
-            </Menu.Item>
+            </Menu.Item>}
           </Menu>
         </Sider>
         <Layout className="site-layout">
