@@ -97,6 +97,7 @@ function Attendance() {
     const [opt, setOpt] =useState([]);
     const [attendanceDataTosend, setattendanceDataTosend] = useState({});
     const [date, setDate]=useState({});
+    const [dateToCompareFormat, setDateToCompareFormat] = useState("");
     const [uniqueBatches, setUniqueBatches] = useState([]);
 
          useEffect(() => {
@@ -139,6 +140,8 @@ function Attendance() {
          setOpt(duplicatesRemovedOptions)
        }
     function onChangeDate(date, dateString) {
+      debugger
+        setDateToCompareFormat(date._d.toDateString());
         setDate(dateString);
     };
     
@@ -166,6 +169,7 @@ function Attendance() {
     createPatternAttendance = {
       present: batchSuffixed,
       date: date,
+      dateToCompareFormat :dateToCompareFormat,
       absent: absentCalculation,
       batchesConductedForTheDay : uniqueBatches
     };

@@ -231,6 +231,29 @@ const normFile = (e) => {
 const Demo = () => {
   const [loadSpinState, setloadSpinState] = useState(false);
 
+
+  async function additionalCheckWithTheTraiinerAttendance(obj) {
+    debugger;
+    let querySnapshotHere = await getDocs(collection(db, "userattendance"));
+    let userArrayHere = [];
+    querySnapshotHere.forEach((doc) => {
+      userArrayHere.push(doc.data());
+    });
+    let didHeFill = "no";
+    userArrayHere.map(o=>{
+      if(((o.batchesConductedForTheDay && o.batchesConductedForTheDay.includes(JSON.parse(sessionStorage.getItem("user"))[0].batch)) && (o.dateToCompareFormat==obj["Date-Pick"]))){
+        didHeFill = "yes"
+      }
+    });
+    if(didHeFill == "no"){
+      alert("Arvinth has not filled the attendance of ur batch for this date. Please tell him to fill !");
+      setloadSpinState(false);
+    }else{
+      saveDataNowAfterCheck(obj);
+    }
+
+
+  }
   async function saveDataToFb(obj) {
     setloadSpinState(true);
     let querySnapshot = await getDocs(collection(db, "studentTaskDetails"));
@@ -243,7 +266,8 @@ const Demo = () => {
     });
 
     if (filterByUser.length == 0) {
-      saveDataNowAfterCheck(obj);
+      additionalCheckWithTheTraiinerAttendance(obj);
+      // saveDataNowAfterCheck(obj);
     } else {
       setloadSpinState(false);
       alert("This has already submitteed for this date");
