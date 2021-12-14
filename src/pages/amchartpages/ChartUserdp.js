@@ -109,6 +109,9 @@ export default function ChartUserdp({batchNoFromTab}) {
        let memberNamesFromBatch = [...new Set (membersFilterFromBatch.map(o=>{
          return o.username
        }))];
+       let calculateTheDaysUNique = [...new Set (membersFilterFromBatch.map(o=>{
+        return o["Date-Pick"]
+      }))];
        let calculateByStudent = memberNamesFromBatch.map((member) => {
          let count =0;
          let specifiedMemberOnloopFilter = membersFilterFromBatch
@@ -121,12 +124,13 @@ export default function ChartUserdp({batchNoFromTab}) {
              return acc;
            }, 0);
 
-         return { label: member, data: [((specifiedMemberOnloopFilter/((membersFilterFromBatch.length)*100))*100).toFixed(1)],  backgroundColor: randomColor({
+         return { label: member, data: [((specifiedMemberOnloopFilter/((calculateTheDaysUNique.length)*100))*100).toFixed(1)],  backgroundColor: randomColor({
           luminosity: 'dark',
           format: 'rgba',
           alpha: 0.5 // e.g. 'rgba(9, 1, 107, 0.5)',
        })};
        });
+       debugger
 
        let preparedDataSet = {
          labels, 
@@ -148,7 +152,7 @@ export default function ChartUserdp({batchNoFromTab}) {
           },
           title: {
             display: true,
-            text: `TOTAL DAYS - ${membersFilterFromBatch.length}`,
+            text: `TOTAL DAYS - ${calculateTheDaysUNique.length}`,
           },
         },
       };

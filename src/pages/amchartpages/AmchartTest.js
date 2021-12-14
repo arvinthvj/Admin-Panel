@@ -47,7 +47,7 @@ var data = [{
 
 
 function AmChartDemo({batchNoFromTab}) {
-  const [batchNoOnClickFromTab, setbatchNoOnClickFromTab] = useState(batchNoFromTab|| 7);
+  const [batchNoOnClickFromTab, setbatchNoOnClickFromTab] = useState(batchNoFromTab|| 5);
   const [dataForMembers,setDataForMembers] = useState(data);
   const [chartLoadChecker, setchartLoadChecker] = useState(false);
 
@@ -305,7 +305,7 @@ debugger
     return () => {
       root.dispose();
     };
-  }, [dataForMembers]);
+  }, []);
 
   return (<>
     <div id="chartdiv"  style={{ width: "100%", height: "500px" , display: `${chartLoadChecker ? "block" : "none"}`}}></div>
