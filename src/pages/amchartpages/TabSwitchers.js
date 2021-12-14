@@ -41,12 +41,12 @@ const TabSwitchers = () => {
   return (
   <Tabs defaultActiveKey="1" onChange={callback}>
     <TabPane tab={"Batch 5"} key="1">
-     <ChartUserdp batchNoFromTab={"5"}/>
-     {/* <AmChartDemo batchNoFromTab={batchesToPass[0]}/> */}
+     {/* <ChartUserdp batchNoFromTab={"5"}/> */}
+     <AmChartDemo batchNoFromTab={"5"}/>
     </TabPane>
     <TabPane tab={"Batch 7"} key="2">
-    <ChartUserdp batchNoFromTab={"7"}/>
-    {/* <AmChartDemo batchNoFromTab={batchesToPass[1]}/> */}
+    {/* <ChartUserdp batchNoFromTab={"7"}/> */}
+    <AmChartDemo batchNoFromTab={"7"}/>
     </TabPane>
     {/* <TabPane key="3">
       Content of Tab Pane 3
