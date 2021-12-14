@@ -46,6 +46,8 @@ const handleLogin=()=>{
       hash: "#react",
       state: { userDetails:filteredIfItHas, fromPopup: filteredIfItHas , state: { keyForSelection: ['1'] }}
     });
+    debugger
+    window.location.reload();
   }else{
     setErrorUser(true)
   }
