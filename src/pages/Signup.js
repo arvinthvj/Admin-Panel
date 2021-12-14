@@ -1,7 +1,7 @@
 // Render Prop
 import React, {useState, useEffect} from "react";
 // import { Formik, Form, Field, ErrorMessage } from "formik";
-import { Form,  Checkbox } from 'antd';
+import { Form,  Checkbox, Avatar } from 'antd';
 import { UserOutlined ,LoginOutlined } from '@ant-design/icons';
 import { Layout, Menu, Breadcrumb } from "antd";
 import { Input, Tooltip } from 'antd';
@@ -9,6 +9,7 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 import { Space, Button } from 'antd';
 import '../Styles/signupform.scss'
 import 'antd/dist/antd.css';
+import logo  from './Images/logo.png'
 // import { Form, Input, Button } from 'antd';
 import { Alert } from 'antd';
 import {  LockOutlined } from '@ant-design/icons';
@@ -52,6 +53,7 @@ const handleLogin=()=>{
 }
   return (
     <>
+      <Avatar src={logo} className="citmaLogo" size={140} /> 
     <div className="regButtonSignup">
     
     </div>
@@ -64,29 +66,12 @@ const handleLogin=()=>{
       }}
       onFinish={onFinish}
     >
-      {/* <Form.Item
-        name="username"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your Username!',
-          },
-        ]}
-      > */}
+      
         {errorUser? <Alert message="No, the user is not found!" type="error" showIcon />:(<div></div>)}
         <div className="signup_form_input">
         <Input onChange={(e)=>{debugger
           setUserEmail(e.currentTarget.value)}} prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
-      {/* </Form.Item> */}
-      {/* <Form.Item
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your Password!',
-          },
-        ]}
-      > */}
+    
         <Input
         onChange={(e)=>{setUserPass(e.currentTarget.value)}}
           prefix={<LockOutlined className="site-form-item-icon" />}
@@ -136,8 +121,10 @@ const SignUp = ({userDetails}) => {
           const key = index + 1;
           return <Menu.Item key={key}>{`nav ${key}`}</Menu.Item>;
         })} */}
-        CITMA<LoginOutlined className="sign_up_login_icon"/>
+      
+      {/* <img src={logo} /> */}
       </Menu>
+    
     </Header>
     <Content style={{ padding: "0 50px" , height: "80vh", width:"100vw" }}>
       

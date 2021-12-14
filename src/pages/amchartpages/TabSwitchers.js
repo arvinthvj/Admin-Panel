@@ -3,6 +3,7 @@ import { Tabs } from 'antd';
 import ChartUserdp from './ChartUserdp';
 import { collection, getDocs } from '@firebase/firestore';
 import db from '../../firebase';
+import AmChartDemo from './AmchartTest';
 const { TabPane } = Tabs;
 
 function callback(key) {
@@ -30,6 +31,7 @@ const TabSwitchers = () => {
        let batchPrepender = batchesCalc.map(o=>{
          return `Batch ${o}`
        })
+
        settabBatchesNames(batchPrepender);
        
      };
@@ -40,13 +42,15 @@ const TabSwitchers = () => {
   <Tabs defaultActiveKey="1" onChange={callback}>
     <TabPane tab={tabBatchesNames[0]} key="1">
      <ChartUserdp batchNoFromTab={batchesToPass[0]}/>
+     {/* <AmChartDemo batchNoFromTab={batchesToPass[0]}/> */}
     </TabPane>
     <TabPane tab={tabBatchesNames[1]} key="2">
     <ChartUserdp batchNoFromTab={batchesToPass[1]}/>
+    {/* <AmChartDemo batchNoFromTab={batchesToPass[1]}/> */}
     </TabPane>
-    <TabPane key="3">
+    {/* <TabPane key="3">
       Content of Tab Pane 3
-    </TabPane>
+    </TabPane> */}
   </Tabs>
 )};
 

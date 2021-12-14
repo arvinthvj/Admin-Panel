@@ -83,17 +83,19 @@ const data = {
   ],
 };
 export default function ChartUserdp({batchNoFromTab}) {
-  const [batchNoOnClickFromTab, setbatchNoOnClickFromTab] = useState(batchNoFromTab|| 7);
+  const [batchNoOnClickFromTab, setbatchNoOnClickFromTab] = useState(batchNoFromTab|| 5);
   const [dataForMembers,setDataForMembers] = useState(data);
   const [chartLoadChecker, setchartLoadChecker] = useState(false);
   const [optionsDynamic, setOptionsDynamic] = useState(options);
   useEffect(()=>{
+    debugger
     if(batchNoFromTab){
       setbatchNoOnClickFromTab(batchNoFromTab)
     }
     
   },[]);
   useEffect(() => {
+    debugger
     async function getallData(){
       const querySnapshot = await getDocs(collection(db, "studentTaskDetails"));
        let userArray = [];
@@ -161,7 +163,7 @@ debugger
        console.log(userArray);
      };
      getallData();
-  }, []);
+  }, [batchNoOnClickFromTab]);
   debugger
   
 
