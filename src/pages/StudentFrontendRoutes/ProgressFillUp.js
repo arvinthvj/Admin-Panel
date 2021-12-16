@@ -186,11 +186,8 @@ const steps = [
           >
             <Slider
               marks={{
-                0: "Bad",
-                20: "Only Some",
-                40: "With Doubts",
-                60: "Good",
-                80: "Better",
+                45: "Some doubts",
+                80: "Good", 
                 100: "Best",
               }}
             />
@@ -208,6 +205,18 @@ const formItemLayout = {
     span: 14,
   },
 };
+function warning() {
+  Modal.error({
+    centered: true,
+    title: 'Submission Restricted For the Selected Date',
+    content: (
+      <div>
+        Arvinth has not filled the attendance of ur batch for this date. Please tell him to fill !
+      </div>
+    )
+    
+  });
+}
 function success() {
   Modal.success({
     centered: true,
@@ -246,7 +255,7 @@ const Demo = () => {
       }
     });
     if(didHeFill == "no"){
-      alert("Arvinth has not filled the attendance of ur batch for this date. Please tell him to fill !");
+      warning();
       setloadSpinState(false);
     }else{
       saveDataNowAfterCheck(obj);
@@ -267,10 +276,9 @@ const Demo = () => {
 
     if (filterByUser.length == 0) {
       additionalCheckWithTheTraiinerAttendance(obj);
-      // saveDataNowAfterCheck(obj);
     } else {
       setloadSpinState(false);
-      alert("This has already submitteed for this date");
+      alert("You have already ");
     }
   }
   async function saveDataNowAfterCheck(obj) {
