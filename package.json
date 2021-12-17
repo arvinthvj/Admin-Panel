@@ -19,6 +19,7 @@
     "faker": "^5.5.3",
     "firebase": "^9.4.1",
     "formik": "^2.2.9",
+    "mobile-device-detect": "^0.4.3",
     "node-sass": "^6.0.1",
     "randomcolor": "^0.6.2",
     "react": "^17.0.2",

@@ -7,6 +7,10 @@ import { Avatar } from "antd";
 import { collection, getDocs } from "@firebase/firestore";
 import db from "../../firebase";
 import { Spin } from "antd";
+import DetailsOnChartPage from "./DetailsOnChartPage";
+
+
+
 var data = [
   {
     name: "Monica",
@@ -218,6 +222,7 @@ function AmChartDemo({ batchNoFromTab }) {
     });
 
     function handleHover(dataItem) {
+      debugger
       if (dataItem && currentlyHovered != dataItem) {
         handleOut();
         currentlyHovered = dataItem;
@@ -312,13 +317,14 @@ function AmChartDemo({ batchNoFromTab }) {
 
     cursor.events.on("cursormoved", function () {
       var dataItem = series.get("tooltip").dataItem;
+      debugger
       if (dataItem) {
         handleHover(dataItem);
       } else {
         handleOut();
       }
     });
-
+    
     // Make stuff animate on load
     // https://www.amcharts.com/docs/v5/concepts/animations/
     series.appear();
@@ -331,7 +337,8 @@ function AmChartDemo({ batchNoFromTab }) {
 
   return (
     <>
-      <div>Total Days : {TotalDaysForTheBatch}</div>
+      <div className="amcharttotaldays">Total Days : {TotalDaysForTheBatch}</div>
+      <p>This is calculated based on their self assessments on an average for the total days they filled up</p>
       <div
         id={`chartdiv${batchNoOnClickFromTab}`}
         style={{
@@ -339,7 +346,10 @@ function AmChartDemo({ batchNoFromTab }) {
           height: "500px",
           display: `${chartLoadChecker ? "block" : "none"}`,
         }}
-      ></div>
+      >
+        
+      </div>
+      {/* <DetailsOnChartPage/> */}
       <div
         style={{ display: `${!chartLoadChecker ? "block" : "none"}` }}
         className='spinner_chart'

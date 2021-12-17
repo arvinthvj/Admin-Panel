@@ -23,7 +23,8 @@ import Demo from './pages/StudentFrontendRoutes/ProgressFillUp';
 import Attendance from './pages/AdminPages/AttendanceMaker';
 import TabSwitchers from './pages/amchartpages/TabSwitchers';
 import RegistrationForm from './pages/Register';
-
+import { isMobile } from 'mobile-device-detect';
+import MobileProfileStudent from './pages/StudentFrontendRoutes/MobileProfile';
 function App() {
   window.userCurrent =[];
   const [usersLog, setUsersLog] = useState([]);
@@ -56,9 +57,12 @@ function App() {
           <Route path='/studentsPage' exact>
             <SiderDemo/>
           </Route>
-          <Route path='/studentsPage/profile'>
+          {isMobile ? <Route path='/studentsPage/profile'>
+          <SiderDemo userDetails={usersLog} PropPage={<MobileProfileStudent/>} key={['1']} />
+          </Route> : <Route path='/studentsPage/profile'>
           <SiderDemo userDetails={usersLog} PropPage={<ProfileStudent/>} key={['1']} />
-          </Route>
+          </Route> }
+          
           <Route path='/studentsPage/day-fill'>
           <SiderDemo userDetails={usersLog} PropPage={<RightBody/>} key={['2']} />
           </Route>
