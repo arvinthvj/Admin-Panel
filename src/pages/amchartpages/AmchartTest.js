@@ -4,13 +4,14 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import { Avatar } from "antd";
+import { Tag, Divider } from 'antd';
 import { collection, getDocs } from "@firebase/firestore";
 import db from "../../firebase";
 import { Spin } from "antd";
 import DetailsOnChartPage from "./DetailsOnChartPage";
 
 
-
+var colorset = ["magenta","volcano", "orange", "gold", "lime", "green", "cyan", "blue", "geekblue", "purple"]; 
 var data = [
   {
     name: "Monica",
@@ -118,6 +119,7 @@ function AmChartDemo({ batchNoFromTab }) {
               100
             ).toFixed(1)
           ),
+          individualClassification : `${count}`,
           pictureSettings: {
             src: require(`../Images/${userEmail}.jpeg`).default,
           },
@@ -338,7 +340,12 @@ function AmChartDemo({ batchNoFromTab }) {
   return (
     <>
       <div className="amcharttotaldays">Total Days : {TotalDaysForTheBatch}</div>
-      <p>This is calculated based on their self assessments on an average for the total days they filled up</p>
+      {/* <p>This is calculated based on their self assessments on an average for the total days they filled up</p> */}
+      <p>The bars displayed are calculated from (Total of Individual Person's self assessments marks Filled / Total days class happended since 13th dec 2021)</p>
+      {dataForMembers.map(data=>(
+        <Tag color={colorset[Math.round(Math.random() * (colorset.length-1 - 0) + 0)]}>{`${data.name} filled for ${data.individualClassification} days`}</Tag>
+      ))}
+      
       <div
         id={`chartdiv${batchNoOnClickFromTab}`}
         style={{
