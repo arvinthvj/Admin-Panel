@@ -3,13 +3,16 @@ import React, { useRef, useLayoutEffect, useEffect, useState } from "react";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
-import { Avatar } from "antd";
+import { Avatar  } from "antd";
 import { Tag, Divider } from 'antd';
 import { collection, getDocs } from "@firebase/firestore";
 import db from "../../firebase";
 import { Spin } from "antd";
+// import {Avatar } from '@mui/material/Avatar';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
 import DetailsOnChartPage from "./DetailsOnChartPage";
-
+import "./achart.css"
 
 var colorset = ["magenta","volcano", "orange", "gold", "lime", "green", "cyan", "blue", "geekblue", "purple"]; 
 var data = [
@@ -19,42 +22,7 @@ var data = [
     pictureSettings: {
       src: "https://www.amcharts.com/wp-content/uploads/2019/04/monica.jpg",
     },
-  },
-  {
-    name: "Joey",
-    steps: 35781,
-    pictureSettings: {
-      src: "https://www.amcharts.com/wp-content/uploads/2019/04/joey.jpg",
-    },
-  },
-  {
-    name: "Ross",
-    steps: 25464,
-    pictureSettings: {
-      src: require(`../Images/${`arvinth@citma`}.jpeg`).default,
-    },
-  },
-  {
-    name: "Phoebe",
-    steps: 18788,
-    pictureSettings: {
-      src: "https://www.amcharts.com/wp-content/uploads/2019/04/phoebe.jpg",
-    },
-  },
-  {
-    name: "Rachel",
-    steps: 15465,
-    pictureSettings: {
-      src: "https://www.amcharts.com/wp-content/uploads/2019/04/rachel.jpg",
-    },
-  },
-  {
-    name: "Chandler",
-    steps: 11561,
-    pictureSettings: {
-      src: "https://www.amcharts.com/wp-content/uploads/2019/04/chandler.jpg",
-    },
-  },
+  }
 ];
 
 function AmChartDemo({ batchNoFromTab }) {
@@ -112,6 +80,7 @@ function AmChartDemo({ batchNoFromTab }) {
 
         return {
           name: member,
+          userEmailDefault : userEmail,
           steps: Number(
             (
               (specifiedMemberOnloopFilter /
@@ -224,7 +193,7 @@ function AmChartDemo({ batchNoFromTab }) {
     });
 
     function handleHover(dataItem) {
-      debugger
+      // debugger
       if (dataItem && currentlyHovered != dataItem) {
         handleOut();
         currentlyHovered = dataItem;
@@ -319,7 +288,7 @@ function AmChartDemo({ batchNoFromTab }) {
 
     cursor.events.on("cursormoved", function () {
       var dataItem = series.get("tooltip").dataItem;
-      debugger
+      // debugger
       if (dataItem) {
         handleHover(dataItem);
       } else {
@@ -339,13 +308,66 @@ function AmChartDemo({ batchNoFromTab }) {
 
   return (
     <>
-      <div className="amcharttotaldays">Total Days : {TotalDaysForTheBatch}</div>
+      <div className='amcharttotaldays'>
+        Total Days : {TotalDaysForTheBatch}
+      </div>
       {/* <p>This is calculated based on their self assessments on an average for the total days they filled up</p> */}
-      <p>The bars displayed are calculated from (Total of Individual Person's self assessments marks Filled / Total days class happended since 13th dec 2021)</p>
-      {dataForMembers.map(data=>(
-        <Tag color={colorset[Math.round(Math.random() * (colorset.length-1 - 0) + 0)]}>{`${data.name} filled for ${data.individualClassification} days`}</Tag>
-      ))}
-      
+      <p>
+        The bars displayed are calculated from (Total of Individual Person's
+        self assessments marks Filled / Total days class happended since 13th
+        dec 2021)
+      </p>
+      <div style={{ display: "flex",  justifyContent: "center" }}>
+        <div className="alters" style={{
+              display: "flex",
+              flex: 1
+            }}>
+        {dataForMembers.length && dataForMembers[0].userEmailDefault ? (
+          <div 
+          className="amchart_todrill"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "column",
+              flex: 1
+            }}
+          >
+            <Stack direction='row' spacing={3}>
+              {dataForMembers.map((data) => (
+                // <Tag color={colorset[Math.round(Math.random() * (colorset.length-1 - 0) + 0)]}>{`${data.name} filled for ${data.individualClassification} days`}</Tag>
+                <Chip
+                  style={{ margin: ".25%" }}
+                  className='chip_differentiate'
+                  avatar={
+                    <Avatar
+                      src={
+                        require(`../Images/${
+                          data.userEmailDefault
+                            ? data.userEmailDefault
+                            : "admin@citma"
+                        }.jpeg`).default
+                      }
+                    ></Avatar>
+                  }
+                  label={`${data.name} filled for ${data.individualClassification} days`}
+                />
+              ))}
+            </Stack>
+          </div>
+        ) : (
+          <div>
+          {/* <div
+            style={{ display: "flex", justifyContent: "center", alignContent: "center", height: "00px" }}
+          > */}
+            <div>
+            {/* <Spin /> */}
+            {/* </div> */}
+          </div>
+          </div>
+        )}
+        </div>
+      </div>
+
       <div
         id={`chartdiv${batchNoOnClickFromTab}`}
         style={{
@@ -353,9 +375,7 @@ function AmChartDemo({ batchNoFromTab }) {
           height: "500px",
           display: `${chartLoadChecker ? "block" : "none"}`,
         }}
-      >
-        
-      </div>
+      ></div>
       {/* <DetailsOnChartPage/> */}
       <div
         style={{ display: `${!chartLoadChecker ? "block" : "none"}` }}
