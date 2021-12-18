@@ -25,6 +25,7 @@ import TabSwitchers from './pages/amchartpages/TabSwitchers';
 import RegistrationForm from './pages/Register';
 import { isMobile } from 'mobile-device-detect';
 import MobileProfileStudent from './pages/StudentFrontendRoutes/MobileProfile';
+import CollapsibleTable from './pages/MaterialTable/TableData';
 function App() {
   window.userCurrent =[];
   const [usersLog, setUsersLog] = useState([]);
@@ -64,7 +65,7 @@ function App() {
           </Route> }
           
           <Route path='/studentsPage/day-fill'>
-          <SiderDemo userDetails={usersLog} PropPage={<RightBody/>} key={['2']} />
+          <SiderDemo userDetails={usersLog} PropPage={<CollapsibleTable/>} key={['2']} />
           </Route>
           <Route path='/studentsPage/profile-fill'>
           <SiderDemo userDetails={usersLog} PropPage={<Demo/>} key={['3']} />

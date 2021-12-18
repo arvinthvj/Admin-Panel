@@ -55,7 +55,8 @@ function RenderTimeline (){
 
 function RenderTeamDetails({hookup}) {
   const [teamMembers, setTeamMembers] = useState([]);
-  useEffect(async()=>{debugger
+  useEffect(async()=>{
+    // debugger
     
     let filterBatchMembers = [];
     if(sessionStorage.getItem("teammembers")){
@@ -106,7 +107,7 @@ function RenderTeamDetails({hookup}) {
 }
 
 function RenderCard({historyUse, hookup}) {
-  // debugger
+  // // debugger
   const history = useHistory();
   const [selfAssessment, setSelfAssessment]= useState(0);
   const [selfDays,setSelfDays] =useState(0);
@@ -117,7 +118,7 @@ function RenderCard({historyUse, hookup}) {
     if(historyUse && historyUse.length){
       sessionStorage.setItem("user", JSON.stringify(historyUse));
       window.userCurrent = historyUse;
-      debugger
+      // debugger
       setUserAccInfo(historyUse)
     }else if(sessionStorage.getItem("user")){
       setUserAccInfo(JSON.parse(sessionStorage.getItem("user")))
@@ -166,14 +167,14 @@ function RenderCard({historyUse, hookup}) {
          querySnapshot.forEach((doc) => {
           attendanceWholeData.push({absent : doc.data().absent, date : doc.data().date, present : doc.data().present , batchesConductedForTheDay:doc.data().batchesConductedForTheDay} ) 
          });
-        debugger
+        // debugger
          let userCalcAttendance = attendanceWholeData.reduce((acc,curr)=>{
            if((curr.present || []).includes(compareFormatGenerator)){
               acc.push({...curr})
            }
            return acc
          },[]);
-      debugger
+      // // debugger
         let userBatchTotalDays =  attendanceWholeData.reduce((acc,curr)=>{
           if((curr.batchesConductedForTheDay || []).includes(JSON.parse(sessionStorage.getItem("user"))[0].batch)){
             acc++
