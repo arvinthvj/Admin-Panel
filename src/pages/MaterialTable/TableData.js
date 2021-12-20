@@ -21,6 +21,7 @@ import { Tag, Divider } from "antd";
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import { Pagination } from 'antd';
+import { fontWeight } from "@mui/system";
 
 var data = [
   {
@@ -311,21 +312,19 @@ function CollapsibleTable({ batchNoFromTab }) {
         };
       });
       setTotalManipulatedData(calculateByStudent)
-      // setRowsState(calculateByStudent);
-
       let preparedDataSet = calculateByStudent;
-
       setTotalDaysForTheBatch(calculateTheDaysUNique.length);
       setchartLoadChecker(true);
       setDataForMembers(preparedDataSet);
       setchartLoadChecker(true);
-
       console.log(userArray);
     }
     getallData();
   }, []);
 
   return (
+    <>
+    {/* <p style={{display:"flex", fontSize:"large" , fontWeight:400}}>{`Users Filled Up Data`.toUpperCase()}</p> */}
     <TableContainer component={Paper}>
       <Table aria-label='collapsible table'>
         <TableHead>
@@ -349,6 +348,7 @@ function CollapsibleTable({ batchNoFromTab }) {
       <Pagination 
       onChange={onShowSizeChange} defaultCurrent={1} total={totalManipulatedData.length+6} />
     </TableContainer>
+    </>
   );
 }
 
