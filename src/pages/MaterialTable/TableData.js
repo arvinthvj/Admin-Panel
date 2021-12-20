@@ -18,6 +18,9 @@ import { collection, getDocs } from "@firebase/firestore";
 import db from "../../firebase";
 import { Avatar } from "antd";
 import { Tag, Divider } from "antd";
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+import { Pagination } from 'antd';
 
 var data = [
   {
@@ -58,6 +61,7 @@ function createData(
     ],
   };
 }
+let tagcolors = ["green", "magenta", "yellow"];
 
 function Row(props) {
   const { row } = props;
@@ -86,7 +90,7 @@ function Row(props) {
         <TableCell align='center'>
           <Tag color='green'>{row.batchNo}</Tag>
         </TableCell>
-        <TableCell align='center'>{row.overallAssignmentcalc}</TableCell>
+        <TableCell align='center'>{row.overallAssignmentcalc+"%"}</TableCell>
         {/* <TableCell align="right">{row.fat}</TableCell> */}
         <TableCell align='center'>{row.overallAttendance}</TableCell>
         <TableCell align='center'>{row.overallAbsent}</TableCell>
@@ -96,33 +100,37 @@ function Row(props) {
           <Collapse in={open} timeout='auto' unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant='h6' gutterBottom component='div'>
-                History
+              {row.name}'s  History <span style={{fontSize:"15px"}}>(Data filled by {row.name} on the particular days)</span> <div> <Chip label={`Absent or unfilled for ${row.overallAbsent} days`} size="small" variant="outlined" color="primary" /></div>
               </Typography>
               <Table size='small' aria-label='purchases'>
                 <TableHead>
                   <TableRow>
-                    <TableCell align='center'>Date</TableCell>
+                    <TableCell align='left'>Date (sorted from the latest to the oldest)</TableCell>
                     <TableCell align='center'>
                       Day wise Self Assessment
                     </TableCell>
-                    <TableCell align='center'>Amount</TableCell>
-                    <TableCell align='center'>Total price ($)</TableCell>
+                    <TableCell align='left'>Topics Covered On the day</TableCell>
+                    {/* <TableCell align='center'>Total price ($)</TableCell> */}
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {row.history.map((historyRow) => (
                     <TableRow key={historyRow.date}>
-                      <TableCell component='th' scope='row' align='center'>
+                      <TableCell component='th' scope='row' align='left'>
                         {historyRow.date}
                       </TableCell>
                       <TableCell align='center'>
                         {historyRow.daywiseselfassessment}
                       </TableCell>
-                      <TableCell align='center'>{historyRow.amount}</TableCell>
-                      <TableCell align='center'>
+                      <TableCell align='left'>
+                        {(historyRow.topicsCovered || []).map((element, index)=>(
+                          <Tag color={tagcolors[index]}>{element}</Tag>
+                        ))}
+                      </TableCell>
+                      {/* <TableCell align='center'>
                         {Math.round(historyRow.amount * row.fromTrainer * 100) /
                           100}
-                      </TableCell>
+                      </TableCell> */}
                     </TableRow>
                   ))}
                 </TableBody>
@@ -135,23 +143,6 @@ function Row(props) {
   );
 }
 
-// Row.propTypes = {
-//   row: PropTypes.shape({
-//     overallAssignmentcalc: PropTypes.number.isRequired,
-//     overallAttendance: PropTypes.number.isRequired,
-//     // fat: PropTypes.number.isRequired,
-//     history: PropTypes.arrayOf(
-//       PropTypes.shape({
-//         amount: PropTypes.number.isRequired,
-//         daywiseselfassessment: PropTypes.string.isRequired,
-//         date: PropTypes.string.isRequired,
-//       }),
-//     ).isRequired,
-//     name: PropTypes.string.isRequired,
-//     fromTrainer: PropTypes.number.isRequired,
-//     overallAbsent: PropTypes.number.isRequired,
-//   }).isRequired,
-// };
 
 const rows = [createData("Frozen yoghurt", 159, 6.0, 24, 4.0, 3.99, "")];
 
@@ -198,6 +189,7 @@ function CollapsibleTable({ batchNoFromTab }) {
           })
         ),
       ];
+      debugger
       let calculateByStudent = memberNamesFromBatch.map((member) => {
         let count = 0;
         let userEmail = "";
@@ -230,6 +222,12 @@ function CollapsibleTable({ batchNoFromTab }) {
           "dec",
         ];
         let collectVar = [];
+        let totalDaysTakenForTheBatch = userArray.reduce((acc,curr)=>{
+          if(!acc.includes(curr["Date-Pick"]) && curr.batch == batchNo){
+            acc.push(curr["Date-Pick"]);
+          }
+          return acc
+        }, []);
         months.map((element) => {
           let subCollVar = [];
 
@@ -265,17 +263,18 @@ function CollapsibleTable({ batchNoFromTab }) {
         return {
           name: member,
           userEmailDefault: userEmail,
+          // topicsCovered : 
           overallAssignmentcalc: Number(
-            ((reduced / (calculateTheDaysUNique.length * 100)) * 100).toFixed(1)
+            ((reduced / (totalDaysTakenForTheBatch.length * 100)) * 100).toFixed(1)
           ),
-          overallAttendance: `${count}`,
-          overallAbsent: calculateTheDaysUNique.length - count,
+          overallAttendance: `${count}/ ${totalDaysTakenForTheBatch.length} days`,
+          overallAbsent: totalDaysTakenForTheBatch.length - count,
           fromTrainer: 100,
           history: specifiedMemberOnloopFilter.map((eachDataBymember) => {
             return {
               date: eachDataBymember["Date-Pick"],
               daywiseselfassessment: eachDataBymember.slider + "",
-              amount: 3,
+              topicsCovered : eachDataBymember.TopicsCovered
             };
           }),
 
@@ -305,9 +304,9 @@ function CollapsibleTable({ batchNoFromTab }) {
             <TableCell />
             <TableCell>Name Of The Candidate</TableCell>
             <TableCell align='center'>Batch No</TableCell>
-            <TableCell align='center'>Overall Self Assessments</TableCell>
+            <TableCell align='center'>Overall Self Assessments (Average)</TableCell>
             <TableCell align='center'>Overall Attendance</TableCell>
-            <TableCell align='center'>No Of days Absent</TableCell>
+            <TableCell align='center'>No Of days Absent or Unfilled</TableCell>
             {/* <TableCell align="right">Marks From The Trainer</TableCell> */}
           </TableRow>
         </TableHead>
@@ -316,7 +315,9 @@ function CollapsibleTable({ batchNoFromTab }) {
             <Row key={row.name} row={row} />
           ))}
         </TableBody>
+        
       </Table>
+      <Pagination defaultCurrent={1} total={50} />
     </TableContainer>
   );
 }
