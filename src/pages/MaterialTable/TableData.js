@@ -144,6 +144,7 @@ function Row(props) {
 }
 
 
+
 const rows = [createData("Frozen yoghurt", 159, 6.0, 24, 4.0, 3.99, "")];
 
 function CollapsibleTable({ batchNoFromTab }) {
@@ -154,6 +155,33 @@ function CollapsibleTable({ batchNoFromTab }) {
   const [dataForMembers, setDataForMembers] = useState(data);
   const [chartLoadChecker, setchartLoadChecker] = useState(false);
   const [TotalDaysForTheBatch, setTotalDaysForTheBatch] = useState(0);
+  const [totalManipulatedData, setTotalManipulatedData] =useState([]);
+  const [fromelementForPage , setfromelementForPage] = useState(0);
+  const [initialTenPagination, setinitialTenPagination] = useState(6);
+  const [defautLimit, setdefautLimit] = useState(6);
+
+  function onShowSizeChange(current, pageSize) {
+    debugger
+    let previousInitialState = current*defautLimit;
+    let previousfromelementForPage = (current-1)*defautLimit;
+    setinitialTenPagination(Number(previousInitialState));
+    setfromelementForPage(previousfromelementForPage);
+    console.log(current, pageSize);
+  }
+
+  useEffect(() => {
+    //totally this function is a pagination handler
+    let dataStoreByPage = [];
+    if(totalManipulatedData.length){
+      dataStoreByPage = totalManipulatedData.filter((element, index)=>{
+        return index >= fromelementForPage && index < initialTenPagination
+      });
+    }
+    setRowsState(dataStoreByPage)
+  }, [totalManipulatedData, fromelementForPage, initialTenPagination])
+
+
+
   useEffect(() => {
     async function getallData() {
       const querySnapshot = await getDocs(collection(db, "studentTaskDetails"));
@@ -282,7 +310,8 @@ function CollapsibleTable({ batchNoFromTab }) {
           batchNo: batchNo,
         };
       });
-      setRowsState(calculateByStudent);
+      setTotalManipulatedData(calculateByStudent)
+      // setRowsState(calculateByStudent);
 
       let preparedDataSet = calculateByStudent;
 
@@ -317,7 +346,8 @@ function CollapsibleTable({ batchNoFromTab }) {
         </TableBody>
         
       </Table>
-      <Pagination defaultCurrent={1} total={50} />
+      <Pagination 
+      onChange={onShowSizeChange} defaultCurrent={1} total={totalManipulatedData.length+6} />
     </TableContainer>
   );
 }
