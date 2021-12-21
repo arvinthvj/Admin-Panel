@@ -55,7 +55,7 @@ function SiderDemo ({PropPage,key}){
             <Menu.Item key="1" icon={<PieChartOutlined />}>
             Profile
             </Menu.Item>
-           {checkIfUserIsAdmin == "arvinth@citma" && <Menu.Item key="2" icon={<UserOutlined />} title="User">Users
+           {(checkIfUserIsAdmin == "arvinth@citma" || checkIfUserIsAdmin == "admin@citma")&& <Menu.Item key="2" icon={<UserOutlined />} title="User">Users
             </Menu.Item>} 
               
            {(checkIfUserIsAdmin != "admin@citma") && <Menu.Item key="3" icon={<TeamOutlined />} title="User">

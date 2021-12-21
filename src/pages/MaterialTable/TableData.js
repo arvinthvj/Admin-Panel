@@ -22,6 +22,11 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import { Pagination } from 'antd';
 import { fontWeight } from "@mui/system";
+import {excelExport, data as dataFromExcel, SETTINGS_FOR_EXPORT} from '../../Export/ExportData';
+import { Button, Radio } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
+import { alignment, defaultDataType } from 'export-xlsx';
+
 
 var data = [
   {
@@ -67,7 +72,147 @@ let tagcolors = ["green", "magenta", "yellow"];
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
+  const handleExport = (name, batchno, absentdays, data,overallAssignmentcalc)=>{
+    let SETTINGS_FOR_EXPORT_HERE = {
+      // Table settings
+      fileName: `${name}'s Record From ${batchno}`,
+      workSheets: [
+        {
+          sheetName: `${name}`,
+          startingRowNumber: 2,
+          gapBetweenTwoTables: 2,
+          tableSettings: {
+            data: {
+              importable: true,
+              tableTitle: `${name}'s Record  From Batch ${batchno} -- Overall Self assessment in percentage is ${overallAssignmentcalc}% -- (Absent or unfilled for ${absentdays} days)`,
+              notification:
+                "Note: Sorted from the latest date to the oldest date!",
+              headerGroups: [
+                {
+                  name: "Attendance",
+                  key: "score",
+                },
+              ],
+              headerDefinition: [
+                {
+                  name: "Date",
+                  key: "date",
+                  width: 18,
+                  style: { alignment: alignment.middleCenter },
+                },
+                {
+                  name: "Date Wise Assessment",
+                  key: "daywiseselfassessment",
+                  width: 18,
+                  style: { alignment: alignment.middleCenter },
+                },
+              ],
 
+              // {
+              //   name: 'Id',
+              //   key: 'id',
+              //   width: 25,
+              //   hierarchy: true,
+              //   checkable: true,
+              // },
+              // {
+              //   name: 'Number',
+              //   key: 'number',
+              //   width: 18,
+              //   checkable: true,
+              //   style: { alignment: alignment.middleCenter },
+              // },
+              // {
+              //   name: 'Name',
+              //   key: 'name',
+              //   width: 18,
+              //   style: { alignment: alignment.middleCenter },
+              // },
+              // {
+              //   name: 'A',
+              //   key: 'a',
+              //   width: 18,
+              //   groupKey: 'score',
+              //   dataType: defaultDataType.number,
+              //   selfSum: true,
+              //   editable: true,
+              // },
+              // {
+              //   name: 'B',
+              //   key: 'b',
+              //   width: 18,
+              //   groupKey: 'score',
+              //   dataType: defaultDataType.number,
+              //   selfSum: true,
+              //   editable: true,
+              // },
+              // {
+              //   name: 'Total',
+              //   key: 'total',
+              //   width: 18,
+              //   dataType: defaultDataType.number,
+              //   selfSum: true,
+              //   rowFormula: '{a}+{b}',
+              // },
+            },
+          },
+        },
+      ],
+    };
+    let dataForExcel = [
+      {
+        data: data.map((element, key)=>{
+          return {
+            id : key, 
+            date: element.date,
+            daywiseselfassessment: `${element.daywiseselfassessment}%`,
+        }
+        })
+        // [
+        //   {
+        //     id: 1,
+        //     level: 0,
+        //     number: '0001',
+        //     name: '0001',
+        //     a: 50,
+        //     b: 45,
+        //     total: 95,
+        //   },
+        //   {
+        //     id: 2,
+        //     parentId: 1,
+        //     level: 1,
+        //     number: '0001-1',
+        //     name: '0001-1',
+        //     a: 20,
+        //     b: 25,
+        //     total: 45,
+        //   },
+        //   {
+        //     id: 3,
+        //     parentId: 2,
+        //     level: 1,
+        //     number: '0001-2',
+        //     name: '0001-2',
+        //     a: 30,
+        //     b: 20,
+        //     total: 50,
+        //   },
+        //   {
+        //     id: 4,
+        //     level: 0,
+        //     number: '0002',
+        //     name: '0002',
+        //     a: 40,
+        //     b: 40,
+        //     total: 80,
+        //   }
+        // ]
+      }
+    ];
+    debugger
+    excelExport.downloadExcel(SETTINGS_FOR_EXPORT_HERE, dataForExcel);
+  }
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -100,8 +245,15 @@ function Row(props) {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout='auto' unmountOnExit>
             <Box sx={{ margin: 1 }}>
-              <Typography variant='h6' gutterBottom component='div'>
-              {row.name}'s  History <span style={{fontSize:"15px"}}>(Data filled by {row.name} on the particular days)</span> <div> <Chip label={`Absent or unfilled for ${row.overallAbsent} days`} size="small" variant="outlined" color="primary" /></div>
+              <Typography style={{display: "flex", justifyContent:"space-between"}} className="tabledatahistorytypo" variant='h6' gutterBottom component='div'>
+                <div>
+              {row.name}'s  History <span style={{fontSize:"15px"}}>(Data filled by {row.name} on the particular days)</span> <span><div> <Chip label={`Absent or unfilled for ${row.overallAbsent} days`} size="small" variant="outlined" color="primary" /></div></span>
+              </div>
+              <div>
+              <Button onClick={()=>{handleExport(row.name,row.batchNo,row.overallAbsent,row.history,row.overallAssignmentcalc)}} type="primary" shape="round" icon={<DownloadOutlined />} size={20}>
+          Export {row.name}'s Record
+        </Button>
+              </div>
               </Typography>
               <Table size='small' aria-label='purchases'>
                 <TableHead>
@@ -120,14 +272,16 @@ function Row(props) {
                       <TableCell component='th' scope='row' align='left'>
                         {historyRow.date}
                       </TableCell>
+                      
                       <TableCell align='center'>
-                        {historyRow.daywiseselfassessment}
+                        {historyRow.daywiseselfassessment}%
                       </TableCell>
                       <TableCell align='left'>
                         {(historyRow.topicsCovered || []).map((element, index)=>(
                           <Tag color={tagcolors[index]}>{element}</Tag>
                         ))}
                       </TableCell>
+                      
                       {/* <TableCell align='center'>
                         {Math.round(historyRow.amount * row.fromTrainer * 100) /
                           100}
@@ -160,6 +314,9 @@ function CollapsibleTable({ batchNoFromTab }) {
   const [fromelementForPage , setfromelementForPage] = useState(0);
   const [initialTenPagination, setinitialTenPagination] = useState(6);
   const [defautLimit, setdefautLimit] = useState(6);
+
+  
+  
 
   function onShowSizeChange(current, pageSize) {
     debugger
@@ -218,7 +375,6 @@ function CollapsibleTable({ batchNoFromTab }) {
           })
         ),
       ];
-      debugger
       let calculateByStudent = memberNamesFromBatch.map((member) => {
         let count = 0;
         let userEmail = "";
@@ -332,8 +488,8 @@ function CollapsibleTable({ batchNoFromTab }) {
             <TableCell />
             <TableCell>Name Of The Candidate</TableCell>
             <TableCell align='center'>Batch No</TableCell>
-            <TableCell align='center'>Overall Self Assessments (Average)</TableCell>
-            <TableCell align='center'>Overall Attendance</TableCell>
+            <TableCell align='center'>Overall Self Assessments (Average) <div style={{fontSize:"12px"}}>(Absent or unfilled days will affect the average)</div></TableCell>
+            <TableCell align='center'>Overall Attendance<div style={{fontSize:"12px"}}>(Filled days / Total days)</div></TableCell>
             <TableCell align='center'>No Of days Absent or Unfilled</TableCell>
             {/* <TableCell align="right">Marks From The Trainer</TableCell> */}
           </TableRow>
