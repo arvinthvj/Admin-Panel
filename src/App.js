@@ -26,7 +26,6 @@ import RegistrationForm from './pages/Register';
 import { isMobile } from 'mobile-device-detect';
 import MobileProfileStudent from './pages/StudentFrontendRoutes/MobileProfile';
 import CollapsibleTable from './pages/MaterialTable/TableData';
-import ChristmasLoader from './ChristmasLoader';
 function App() {
   window.userCurrent =[];
   const [usersLog, setUsersLog] = useState([]);
@@ -54,7 +53,6 @@ function App() {
             <Home />
           </Route>
           <Route path='/' exact>
-            
             <SignUp userDetails={usersLog}/>
           </Route>
           <Route path='/studentsPage' exact>

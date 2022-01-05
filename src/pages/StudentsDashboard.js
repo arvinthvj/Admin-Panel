@@ -9,7 +9,6 @@ import {
 import '.././Styles/studentsLayout.scss'
 import React, { useState,useEffect } from 'react'
 import { Redirect, useHistory } from 'react-router';
-import ChristmasLoader from '../ChristmasLoader';
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -19,12 +18,6 @@ function SiderDemo ({PropPage,key}){
   const [checkIfUserIsAdmin, setCheckIfUserIsAdmin] = useState("");
   const [selectionNo, setSelectionNo] = useState(['1']);
   const history = useHistory();
-  const [loading, setLoading] =useState(false);
-  useEffect(()=>{
-    setTimeout(() => {
-      setLoading(true)
-    }, 5000);
-  })
   useEffect(() => {
     
     setCheckIfUserIsAdmin(JSON.parse(sessionStorage.getItem("user"))[0].email)
@@ -83,7 +76,7 @@ function SiderDemo ({PropPage,key}){
           
           <Content style={{ margin: '0 16px' }}>
             <br></br>
-            {loading ? PropPage : <ChristmasLoader/>}
+            {PropPage ? PropPage : <div></div>}
            
           </Content>
           <Footer style={{ textAlign: 'center' }}>© CITMA</Footer>
