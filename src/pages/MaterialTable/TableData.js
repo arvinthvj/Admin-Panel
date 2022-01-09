@@ -344,8 +344,11 @@ function CollapsibleTable({ batchNoFromTab }) {
     async function getallData() {
       const querySnapshot = await getDocs(collection(db, "studentTaskDetails"));
       let userArray = [];
+      let obj ={};
       querySnapshot.forEach((doc) => {
-        userArray.push(doc.data());
+        obj = Object.assign(doc.data(),{})
+        obj.slider = Number(obj.slider);
+        userArray.push(obj);
       });
 
       let membersFilterFromBatch = userArray
