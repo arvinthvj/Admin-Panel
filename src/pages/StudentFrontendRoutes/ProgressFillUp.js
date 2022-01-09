@@ -14,6 +14,7 @@ import {
   Col,
   Spin,
 } from "antd";
+import { isMobile } from 'mobile-device-detect';
 import { Steps, message } from "antd";
 import { UploadOutlined, InboxOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
@@ -169,7 +170,7 @@ const steps = [
             name='Date-Pick'
             label='Date Pick'
           >
-            <DatePicker style={{ width: "30rem" }} bordered={false} />
+            <DatePicker style={{ width: isMobile ? "fit-content" :"30rem" }} bordered={false} />
           </Form.Item>
           <Form.Item rules={[]} name='Message' label='Any Comments'>
             <TextArea autoSize />
@@ -184,14 +185,21 @@ const steps = [
             ]}
             label='Rate your understanding'
           >
-            <Slider
-              marks={{
-                45: "Some doubts",
-                80: "Good", 
-                100: "Best",
-              }}
-            />
-          </Form.Item>
+            <Radio.Group>
+              <Radio.Button value='60'>
+                60
+              </Radio.Button>
+              <Radio.Button value='80'>
+                80
+              </Radio.Button>
+              <Radio.Button value='100'>
+               100
+              </Radio.Button>
+            </Radio.Group>
+          </Form.Item> 
+            
+          
+          
         </>
       );
     },
@@ -328,11 +336,12 @@ const Demo = () => {
       <div className='profilefilluptotalcontainer'>
         <div className='profilefillmasterstepholder'>
           <div className='profilefillupstepsholder'>
-            <Steps current={current}>
+            {isMobile ? <></> : <Steps current={current}>
               {steps.map((item) => (
                 <Step key={item.title} title={item.title} />
               ))}
-            </Steps>
+            </Steps>}
+            
           </div>
         </div>
 

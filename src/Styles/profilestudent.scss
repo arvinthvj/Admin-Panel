@@ -5,8 +5,16 @@
     justify-content: space-between;
     align-items: center;
 }
-
-
+.marginAddCol{
+    padding: .1rem;
+}
+.srowProfile{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    height: 9rem;
+}
 .master_col_group_profile{
     display: flex;
     justify-content: space-around;
@@ -44,7 +52,7 @@ flex: .8;
     padding-right: 11%;
     padding-top: 5%;
     background: white;
-    height: 36rem;
+    height: fit-content;
 }
 
 .REnderTimeline_timeline_text{

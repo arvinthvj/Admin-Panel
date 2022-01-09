@@ -3,6 +3,11 @@
   background-color: #e3e1e1;
 }
 
+.ant-menu.ant-menu-dark, .ant-menu-dark .ant-menu-sub, .ant-menu.ant-menu-dark .ant-menu-sub{
+  background: linear-gradient(
+210deg, #1f005c, #5b0060, #870160, #ac255e, #ca485c, #e16b5c, #f39060, #ffb56b) !important;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

@@ -1,0 +1,22 @@
+.modalCol{
+    
+    height: 6rem;
+    width: 37rem !important;
+    
+}
+
+.progressCalandar{
+    margin-left: -0.7rem !important;
+}
+.ant-modal-content{
+    /* width: fit-content !important; */
+    height: fit-content;
+}
+
+/* .ant-modal.ant-modal-confirm.ant-modal-confirm-info{
+    width: inherit !important;
+} */
+
+.greyText{
+    color: #00000066;
+}

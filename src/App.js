@@ -26,6 +26,7 @@ import RegistrationForm from './pages/Register';
 import { isMobile } from 'mobile-device-detect';
 import MobileProfileStudent from './pages/StudentFrontendRoutes/MobileProfile';
 import CollapsibleTable from './pages/MaterialTable/TableData';
+import YourHistory from './pages/StudentFrontendRoutes/YourHistory';
 function App() {
   window.userCurrent =[];
   const [usersLog, setUsersLog] = useState([]);
@@ -47,6 +48,8 @@ function App() {
 
   return (
     <Router>
+
+
       <div className='App'>
         <Switch>
           <Route path='/dashboard'>
@@ -58,11 +61,9 @@ function App() {
           <Route path='/studentsPage' exact>
             <SiderDemo/>
           </Route>
-          {isMobile ? <Route path='/studentsPage/profile'>
-          <SiderDemo userDetails={usersLog} PropPage={<MobileProfileStudent/>} key={['1']} />
-          </Route> : <Route path='/studentsPage/profile'>
+          <Route path='/studentsPage/profile'>
           <SiderDemo userDetails={usersLog} PropPage={<ProfileStudent/>} key={['1']} />
-          </Route> }
+          </Route> 
           
           <Route path='/studentsPage/day-fill'>
           <SiderDemo userDetails={usersLog} PropPage={<CollapsibleTable/>} key={['2']} />
@@ -75,6 +76,9 @@ function App() {
           </Route>
           <Route path='/studentsPage/chart'>
           <SiderDemo userDetails={usersLog} PropPage={<TabSwitchers/>} key={['5']} />
+          </Route>
+          <Route path='/studentsPage/yourhistory'>
+          <SiderDemo userDetails={usersLog} PropPage={<YourHistory/>} key={['6']} />
           </Route>
           
         </Switch>

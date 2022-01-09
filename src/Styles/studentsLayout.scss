@@ -3,3 +3,11 @@
     overflow-y: scroll !important;
     scroll-behavior: smooth !important;
 }
+.studentLayout .ant-layout-header{
+height: 0px;
+}
+
+.anticon .anticon-ellipsis{
+    width: 2rem;
+    height: 2rem;
+}
